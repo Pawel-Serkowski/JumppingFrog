@@ -1,6 +1,6 @@
-#include <ncurses.h>
+#pragma once
 
-//gameboard type
+#include <ncurses.h>
 
 struct MovingObject_t{
     struct {
@@ -10,10 +10,9 @@ struct MovingObject_t{
     int height;
     int width;
     int velocity;
+    int colorNumber;
     chtype icon;
 };
-
-
 
 struct Board_t{
     WINDOW *board_win;
@@ -22,8 +21,6 @@ struct Board_t{
     int startRow;
     int startCol;
     bool isGood;
-    int scaleX;
-    int scaleY;
     int frogInitY;
     int frogInitX;
     chtype **board;
@@ -32,6 +29,7 @@ struct Board_t{
 struct FrogGame_t 
 {
     bool isFrogAlive;
+    bool isSeedOkay;
     Board_t gameBoard;
     MovingObject_t frog;
 };

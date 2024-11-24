@@ -1,11 +1,12 @@
 #include <iostream>
 #include <ncurses.h>
 
-#include "src/board.hpp"
+#include "src/gameSetup.hpp"
+#include "src/drawGame.hpp"
+#include "src/customTypes.hpp"
+#include "src/windowFunctions.hpp"
 
 using namespace std;
-
-
 
 int main(){
     initscr();
@@ -13,17 +14,19 @@ int main(){
 
     noecho(); 
     curs_set(0);
+    start_color();
+    use_default_colors();
+    initColors();
+
+    
     
     FrogGame_t frogGame;
-    frogGame.gameBoard = initializeBoard(3,3);
-    frogGame.frog.position.y = frogGame.gameBoard.frogInitY;
-    frogGame.frog.position.x = frogGame.gameBoard.frogInitX;
-    frogGame.frog.icon = FROGICON;
-    frogGame.frog.height = 1;
-    frogGame.frog.width = 1;
-    if(frogGame.gameBoard.isGood == false){ 
+    FrogGame_t *frogGamePointer = &frogGame;
+    initializeGame(frogGamePointer);
+
+    if(!frogGame.isSeedOkay){ 
         endwin();
-        cout << "We can't get seed." << "\n";
+        cout << "Something gone wrong with seed :(." << "\n";
         return 0;
     }
 
