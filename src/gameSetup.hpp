@@ -4,14 +4,10 @@
 #include <fstream>
 
 #include "customTypes.hpp"
+#include "windowFunctions.hpp"
 #include "CONFIG.hpp"
 
 using namespace std;
-
-void initColors(){
-    init_pair(CASUAL_COLOR_NUMBER,CASUAL_COLOR,-1);
-    init_pair(FROG_COLOR_NUMBER,FROG_COLOR,-1);
-}
 
 bool getDataFromSeed(FrogGame_t *frogGame){
     ifstream seedFile("./seeds/default.txt");
@@ -59,6 +55,11 @@ bool getDataFromSeed(FrogGame_t *frogGame){
     seedFile.close();
     return true;
 }
+void initializeBoardWindow(WINDOW *board_win){
+    addBorder(board_win);
+    keypad(board_win,true);
+    
+}
 
 void initializeBoard(Board_t *gameBoard){
     gameBoard->height *= SCALE_Y;
@@ -70,7 +71,13 @@ void initializeBoard(Board_t *gameBoard){
     gameBoard->startCol = ((xMax/2)-(gameBoard->width/2));
 
     gameBoard->board_win = newwin(gameBoard->height+(2*OFFSET),gameBoard->width+(2*OFFSET),gameBoard->startRow-1,gameBoard->startCol-1);
+
+
+    initializeBoardWindow(gameBoard->board_win);
+    refreshWindow(gameBoard->board_win);
 }
+
+
 
 void initializeFrog(MovingObject_t *frog){
     frog->icon=FROG_ICON;
@@ -85,6 +92,7 @@ void initializeGame(FrogGame_t *frogGame){
         return;
     }
     frogGame->isSeedOkay=true;
+
     initializeBoard(&(frogGame->gameBoard));
     initializeFrog(&(frogGame->frog));
 

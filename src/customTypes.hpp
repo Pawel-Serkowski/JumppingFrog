@@ -2,6 +2,14 @@
 
 #include <ncurses.h>
 
+enum Direction{
+    STAY,
+    UP,
+    DOWN ,
+    LEFT,
+    RIGHT,
+};
+
 struct MovingObject_t{
     struct {
         int x;
@@ -32,4 +40,6 @@ struct FrogGame_t
     bool isSeedOkay;
     Board_t gameBoard;
     MovingObject_t frog;
+    Direction frogDirection;
 };
+

@@ -5,24 +5,16 @@
 #include "src/drawGame.hpp"
 #include "src/customTypes.hpp"
 #include "src/windowFunctions.hpp"
+#include "src/game.hpp"
 
 using namespace std;
 
 int main(){
-    initscr();
-    refresh();
 
-    noecho(); 
-    curs_set(0);
-    start_color();
-    use_default_colors();
-    initColors();
-
-    
+    initializeGameWindow();    
     
     FrogGame_t frogGame;
-    FrogGame_t *frogGamePointer = &frogGame;
-    initializeGame(frogGamePointer);
+    initializeGame(&frogGame);
 
     if(!frogGame.isSeedOkay){ 
         endwin();
@@ -30,12 +22,15 @@ int main(){
         return 0;
     }
 
-    keypad(frogGame.gameBoard.board_win,true);
-    
     drawGame(frogGame);
-    addBorder(frogGame.gameBoard.board_win);
-    refreshWindow(frogGame.gameBoard.board_win);
-    getch();
-    endwin();
+    while(true){
+        processInput(frogGame.gameBoard.board_win, &(frogGame.frogDirection));
+        doLogic(&frogGame);
+
+        drawGame(frogGame);
+        refreshWindow(frogGame.gameBoard.board_win);
+    }
+    
+    destroyGameWindow();
     return 0;
 }   
