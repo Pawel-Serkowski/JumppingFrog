@@ -13,11 +13,14 @@
 #define OFFSET 1 //distance beetween border and content
 #define SCALE_X 3
 #define SCALE_Y 3
+#define FROG_JUMP_SPEED 15
+#define TICK_DURATION 10
 
 //game colors
 #define CASUAL_COLOR_NUMBER 1 
-#define CASUAL_COLOR COLOR_BLUE
+#define CASUAL_COLOR COLOR_WHITE
 #define FROG_COLOR_NUMBER 2
 #define FROG_COLOR COLOR_GREEN
+
 
 

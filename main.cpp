@@ -2,27 +2,18 @@
 #include <ncurses.h>
 
 #include "src/gameSetup.hpp"
-#include "src/drawGame.hpp"
 #include "src/customTypes.hpp"
 #include "src/windowFunctions.hpp"
+#include "src/game.hpp"
 
 using namespace std;
 
 int main(){
-    initscr();
-    refresh();
 
-    noecho(); 
-    curs_set(0);
-    start_color();
-    use_default_colors();
-    initColors();
-
-    
+    initializeGameWindow();    
     
     FrogGame_t frogGame;
-    FrogGame_t *frogGamePointer = &frogGame;
-    initializeGame(frogGamePointer);
+    initializeGame(&frogGame);
 
     if(!frogGame.isSeedOkay){ 
         endwin();
@@ -30,12 +21,8 @@ int main(){
         return 0;
     }
 
-    keypad(frogGame.gameBoard.board_win,true);
+    gameLoop(&frogGame);
     
-    drawGame(frogGame);
-    addBorder(frogGame.gameBoard.board_win);
-    refreshWindow(frogGame.gameBoard.board_win);
-    getch();
-    endwin();
+    destroyGameWindow();
     return 0;
 }   
