@@ -18,6 +18,8 @@ void initializeGameWindow(){
     start_color();
     use_default_colors();
     initColors();
+    keypad(stdscr,true);
+    timeout(0);
 }
 
 void destroyGameWindow(){

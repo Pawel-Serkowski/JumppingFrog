@@ -2,9 +2,9 @@
 
 #include "customTypes.hpp"
 
-void moveFrog(MovingObject_t *frog, Direction frogDir, int boardHeight, int boardWidth){
-    if(frogDir == STAY) return;
-    switch(frogDir){
+void moveFrog(MovingObject_t *frog, Direction *frogDir, int boardHeight, int boardWidth){
+    if(*frogDir == STAY) return;
+    switch(*frogDir){
         case UP:
             if(frog->position.y > 0)frog->position.y -=1;
             break;
@@ -21,5 +21,6 @@ void moveFrog(MovingObject_t *frog, Direction frogDir, int boardHeight, int boar
             break;
         
     }
+    *frogDir = STAY;
 
 }

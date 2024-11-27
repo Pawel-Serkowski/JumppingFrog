@@ -2,7 +2,6 @@
 #include <ncurses.h>
 
 #include "src/gameSetup.hpp"
-#include "src/drawGame.hpp"
 #include "src/customTypes.hpp"
 #include "src/windowFunctions.hpp"
 #include "src/game.hpp"
@@ -22,14 +21,7 @@ int main(){
         return 0;
     }
 
-    drawGame(frogGame);
-    while(true){
-        processInput(frogGame.gameBoard.board_win, &(frogGame.frogDirection));
-        doLogic(&frogGame);
-
-        drawGame(frogGame);
-        refreshWindow(frogGame.gameBoard.board_win);
-    }
+    gameLoop(&frogGame);
     
     destroyGameWindow();
     return 0;

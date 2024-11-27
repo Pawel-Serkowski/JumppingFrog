@@ -56,9 +56,7 @@ bool getDataFromSeed(FrogGame_t *frogGame){
     return true;
 }
 void initializeBoardWindow(WINDOW *board_win){
-    addBorder(board_win);
-    keypad(board_win,true);
-    
+    addBorder(board_win);    
 }
 
 void initializeBoard(Board_t *gameBoard){
@@ -92,6 +90,7 @@ void initializeGame(FrogGame_t *frogGame){
         return;
     }
     frogGame->isSeedOkay=true;
+    frogGame->frogDirection=STAY;
 
     initializeBoard(&(frogGame->gameBoard));
     initializeFrog(&(frogGame->frog));
