@@ -24,8 +24,8 @@ void processInput(chtype input, Direction *frogDirection){
 }
 
 void doLogic(FrogGame_t *game){
-    int realBoardHeight = (game->gameBoard.height)/3 - 2*OFFSET;
-    int realBoardwidth = (game->gameBoard.width)/3 - 2*OFFSET;
+    int realBoardHeight = (game->gameBoard.height)/SCALE_Y - 2*OFFSET;
+    int realBoardwidth = (game->gameBoard.width)/SCALE_X - 2*OFFSET;
 
     moveFrog(&(game->frog),&(game->frog.direction), realBoardHeight, realBoardwidth);
 

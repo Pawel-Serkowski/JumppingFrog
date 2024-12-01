@@ -14,8 +14,8 @@
 #define SEED_OBSTACLE_ICON 'L'
 
 #define OFFSET 1 //distance beetween border and content
-#define SCALE_X 3
-#define SCALE_Y 3
+#define SCALE_X 2
+#define SCALE_Y 2
 #define FROG_JUMP_SPEED 10
 #define TICK_DURATION 10
 

@@ -45,5 +45,8 @@ void drawGame(FrogGame_t frogGame){
 
     drawEntity(frogGame.gameBoard.board_win, frogGame.frog); //drawing Frog
 
-    drawEntity(frogGame.gameBoard.board_win,*frogGame.cars[0]);
+    for(int c = 0; c < frogGame.carsNumber; c++){
+        drawEntity(frogGame.gameBoard.board_win,*frogGame.cars[c]);
+    }
+    
 }

@@ -101,7 +101,7 @@ void initializeGame(FrogGame_t *frogGame){
     initializeBoard(&(frogGame->gameBoard));
     initializeFrog(&(frogGame->frog));
 
-    frogGame->carsNumber = 1;
+    frogGame->carsNumber = 2;
     frogGame->cars = new MovingObject_t*[frogGame->carsNumber];
 
     MovingObject_t *car = new MovingObject_t;
@@ -116,6 +116,21 @@ void initializeGame(FrogGame_t *frogGame){
     car->direction = RIGHT;
 
     frogGame->cars[0] = car;
+
+
+    MovingObject_t *car1 = new MovingObject_t;
+    car1->colorNumber = 3;
+    car1->height = 1;
+    car1->icon = CAR_ICON;
+    car1->position.x = 0;
+    car1->position.y = 8;
+    car1->velocity=20;
+    car1->width = 2;
+    car1->type = 'N';
+    car1->direction = RIGHT;
+    car1->isAlive = true;
+
+    frogGame->cars[1] = car1;
 
 
 }
