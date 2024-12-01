@@ -4,6 +4,7 @@
 #include <unistd.h>
 
 #include "frogFunctions.hpp"
+#include "carFunctions.hpp"
 #include "customTypes.hpp"
 #include "CONFIG.hpp"
 #include "windowFunctions.hpp"
@@ -25,27 +26,37 @@ void processInput(chtype input, Direction *frogDirection){
 void doLogic(FrogGame_t *game){
     int realBoardHeight = (game->gameBoard.height)/3 - 2*OFFSET;
     int realBoardwidth = (game->gameBoard.width)/3 - 2*OFFSET;
-    moveFrog(&(game->frog),&(game->frogDirection), realBoardHeight, realBoardwidth);
+
+    moveFrog(&(game->frog),&(game->frog.direction), realBoardHeight, realBoardwidth);
+
+    for(int c = 0; c < game->carsNumber; c++){
+        moveCar(game->cars[c],realBoardwidth,game->gameBoard.board[game->cars[c]->position.y]);
+    }
 }
 
 void gameLoop(FrogGame_t *frogGame){
-    int frog_timer = 0;
+    MovingObject_t frog = frogGame->frog;
 
     drawGame(*frogGame);
     while(true){
         chtype input = getch();
         if(input == 'q')break;
-        if(frog_timer ==0){
-            processInput(input,&(frogGame->frogDirection));
+        if(frog.moveTimer ==0){
+            processInput(input,&(frogGame->frog.direction));
             if(input != ERR){
-                frog_timer = FROG_JUMP_SPEED;
+                frog.moveTimer = FROG_JUMP_SPEED;
             }
         }
 
         doLogic(frogGame);
 
-        if(frog_timer > 0){
-            frog_timer -= 1;
+        if(frog.moveTimer > 0){
+            frog.moveTimer -= 1;
+        }
+        for(int c = 0; c < frogGame->carsNumber;  c++){
+            if(frogGame->cars[c]->moveTimer > 0){
+                frogGame->cars[c]->moveTimer -= 1;
+            }
         }
 
 

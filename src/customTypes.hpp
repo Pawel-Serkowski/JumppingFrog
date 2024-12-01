@@ -11,6 +11,7 @@ enum Direction{
 };
 
 struct MovingObject_t{
+    bool isAlive;
     struct {
         int x;
         int y;
@@ -19,7 +20,10 @@ struct MovingObject_t{
     int width;
     int velocity;
     int colorNumber;
+    int moveTimer;
     chtype icon;
+    chtype type;
+    Direction direction;
 };
 
 struct Board_t{
@@ -36,10 +40,10 @@ struct Board_t{
 
 struct FrogGame_t 
 {
-    bool isFrogAlive;
     bool isSeedOkay;
     Board_t gameBoard;
     MovingObject_t frog;
-    Direction frogDirection;
+    int carsNumber;
+    MovingObject_t **cars;
 };
 

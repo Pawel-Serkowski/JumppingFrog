@@ -43,6 +43,7 @@ void drawBoard(Board_t gameBoard){
 void drawGame(FrogGame_t frogGame){
     drawBoard(frogGame.gameBoard);
 
-
     drawEntity(frogGame.gameBoard.board_win, frogGame.frog); //drawing Frog
+
+    drawEntity(frogGame.gameBoard.board_win,*frogGame.cars[0]);
 }

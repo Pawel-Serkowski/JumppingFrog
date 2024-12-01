@@ -41,6 +41,9 @@ bool getDataFromSeed(FrogGame_t *frogGame){
                     frog.position.x = j;
                     frog.position.y = i;
                     break;
+                case SEED_OBSTACLE_ICON:
+                    seedIcon = OBSTACLE_ICON;
+                    break;
                 default:
                     seedIcon = '?';
             }
@@ -82,6 +85,10 @@ void initializeFrog(MovingObject_t *frog){
     frog->width=1;
     frog->height=1;
     frog->colorNumber=FROG_COLOR_NUMBER;
+    frog->isAlive = true;
+    frog->type = 'F';
+    frog->direction = STAY;
+    frog->moveTimer = 0;
 }
 
 void initializeGame(FrogGame_t *frogGame){
@@ -90,10 +97,26 @@ void initializeGame(FrogGame_t *frogGame){
         return;
     }
     frogGame->isSeedOkay=true;
-    frogGame->frogDirection=STAY;
 
     initializeBoard(&(frogGame->gameBoard));
     initializeFrog(&(frogGame->frog));
+
+    frogGame->carsNumber = 1;
+    frogGame->cars = new MovingObject_t*[frogGame->carsNumber];
+
+    MovingObject_t *car = new MovingObject_t;
+    car->colorNumber = 3;
+    car->height = 1;
+    car->icon = CAR_ICON;
+    car->position.x = 5;
+    car->position.y = 1;
+    car->velocity=10;
+    car->width = 3;
+    car->type = 'B';
+    car->direction = RIGHT;
+
+    frogGame->cars[0] = car;
+
 
 }
 

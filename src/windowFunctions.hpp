@@ -8,6 +8,7 @@
 void initColors(){
     init_pair(CASUAL_COLOR_NUMBER,CASUAL_COLOR,-1);
     init_pair(FROG_COLOR_NUMBER,FROG_COLOR,-1);
+    init_pair(CAR_COLOR_NUMBER,CAR_COLOR,-1);
 }
 
 void initializeGameWindow(){
