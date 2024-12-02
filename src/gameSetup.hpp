@@ -6,6 +6,7 @@
 #include "customTypes.hpp"
 #include "windowFunctions.hpp"
 #include "CONFIG.hpp"
+#include "carFunctions.hpp"
 
 using namespace std;
 
@@ -41,6 +42,9 @@ bool getDataFromSeed(FrogGame_t *frogGame){
                     frog.position.x = j;
                     frog.position.y = i;
                     break;
+                case SEED_OBSTACLE_ICON:
+                    seedIcon = OBSTACLE_ICON;
+                    break;
                 default:
                     seedIcon = '?';
             }
@@ -56,7 +60,7 @@ bool getDataFromSeed(FrogGame_t *frogGame){
     return true;
 }
 void initializeBoardWindow(WINDOW *board_win){
-    addBorder(board_win);    
+    addBorder(board_win);
 }
 
 void initializeBoard(Board_t *gameBoard){
@@ -82,6 +86,10 @@ void initializeFrog(MovingObject_t *frog){
     frog->width=1;
     frog->height=1;
     frog->colorNumber=FROG_COLOR_NUMBER;
+    frog->isAlive = true;
+    frog->type = 'F';
+    frog->direction = STAY;
+    frog->moveTimer = 0;
 }
 
 void initializeGame(FrogGame_t *frogGame){
@@ -90,10 +98,44 @@ void initializeGame(FrogGame_t *frogGame){
         return;
     }
     frogGame->isSeedOkay=true;
-    frogGame->frogDirection=STAY;
 
     initializeBoard(&(frogGame->gameBoard));
     initializeFrog(&(frogGame->frog));
+
+    frogGame->carsNumber = 5;
+    frogGame->cars = new MovingObject_t*[frogGame->carsNumber];
+
+    MovingObject_t *car = new MovingObject_t;
+    car->colorNumber = 3;
+    car->height = 1;
+    car->icon = CAR_ICON;
+    car->position.x = 5;
+    car->position.y = 1;
+    car->velocity=10;
+    car->width = 3;
+    car->type = 'B';
+    car->direction = RIGHT;
+    car->initialWidth = 3;
+
+    frogGame->cars[0] = car;
+
+
+    MovingObject_t *car1 = new MovingObject_t;
+    initialRandomCar(car1,LEFT,8,frogGame->gameBoard.width/SCALE_X);
+    frogGame->cars[1] = car1;
+
+    MovingObject_t *car2 = new MovingObject_t;
+    initialRandomCar(car2,RIGHT,5);
+    frogGame->cars[2] = car2;
+
+    MovingObject_t *car3 = new MovingObject_t;
+    initialRandomCar(car3,RIGHT,4);
+    frogGame->cars[3] = car3;
+
+    MovingObject_t *car4 = new MovingObject_t;
+    initialRandomCar(car4,LEFT,2,frogGame->gameBoard.width/SCALE_X);
+    frogGame->cars[4] = car4;
+
 
 }
 
