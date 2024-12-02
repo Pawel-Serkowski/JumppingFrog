@@ -6,6 +6,7 @@
 #include "customTypes.hpp"
 #include "windowFunctions.hpp"
 #include "CONFIG.hpp"
+#include "carFunctions.hpp"
 
 using namespace std;
 
@@ -59,7 +60,7 @@ bool getDataFromSeed(FrogGame_t *frogGame){
     return true;
 }
 void initializeBoardWindow(WINDOW *board_win){
-    addBorder(board_win);    
+    addBorder(board_win);
 }
 
 void initializeBoard(Board_t *gameBoard){
@@ -101,7 +102,7 @@ void initializeGame(FrogGame_t *frogGame){
     initializeBoard(&(frogGame->gameBoard));
     initializeFrog(&(frogGame->frog));
 
-    frogGame->carsNumber = 2;
+    frogGame->carsNumber = 5;
     frogGame->cars = new MovingObject_t*[frogGame->carsNumber];
 
     MovingObject_t *car = new MovingObject_t;
@@ -114,23 +115,26 @@ void initializeGame(FrogGame_t *frogGame){
     car->width = 3;
     car->type = 'B';
     car->direction = RIGHT;
+    car->initialWidth = 3;
 
     frogGame->cars[0] = car;
 
 
     MovingObject_t *car1 = new MovingObject_t;
-    car1->colorNumber = 3;
-    car1->height = 1;
-    car1->icon = CAR_ICON;
-    car1->position.x = 0;
-    car1->position.y = 8;
-    car1->velocity=20;
-    car1->width = 2;
-    car1->type = 'N';
-    car1->direction = RIGHT;
-    car1->isAlive = true;
-
+    initialRandomCar(car1,LEFT,8,frogGame->gameBoard.width/SCALE_X);
     frogGame->cars[1] = car1;
+
+    MovingObject_t *car2 = new MovingObject_t;
+    initialRandomCar(car2,RIGHT,5);
+    frogGame->cars[2] = car2;
+
+    MovingObject_t *car3 = new MovingObject_t;
+    initialRandomCar(car3,RIGHT,4);
+    frogGame->cars[3] = car3;
+
+    MovingObject_t *car4 = new MovingObject_t;
+    initialRandomCar(car4,LEFT,2,frogGame->gameBoard.width/SCALE_X);
+    frogGame->cars[4] = car4;
 
 
 }

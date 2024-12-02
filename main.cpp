@@ -1,4 +1,6 @@
 #include <iostream>
+#include <time.h>
+#include <stdlib.h>
 #include <ncurses.h>
 
 #include "src/gameSetup.hpp"
@@ -10,7 +12,8 @@ using namespace std;
 
 int main(){
 
-    initializeGameWindow();    
+    initializeGameWindow();
+    srand(time(NULL));    
     
     FrogGame_t frogGame;
     initializeGame(&frogGame);

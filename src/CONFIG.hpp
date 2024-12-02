@@ -19,6 +19,12 @@
 #define FROG_JUMP_SPEED 10
 #define TICK_DURATION 10
 
+//car generate configurations
+#define CAR_MAX_SPEED 5
+#define CAR_MIN_SPEED 7
+#define CAR_MIN_LENGTH 1
+#define CAR_MAX_LENGTH 4
+
 //game colors
 #define CASUAL_COLOR_NUMBER 1 
 #define CASUAL_COLOR COLOR_WHITE

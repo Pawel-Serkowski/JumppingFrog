@@ -18,6 +18,7 @@ struct MovingObject_t{
     } position;
     int height;
     int width;
+    int initialWidth;
     int velocity;
     int colorNumber;
     int moveTimer;
