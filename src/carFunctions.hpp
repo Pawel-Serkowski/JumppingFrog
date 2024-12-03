@@ -10,6 +10,18 @@ void initialDefaultValues(MovingObject_t *car){
     car->isAlive = true;
 }
 
+void initialBouncingCar(MovingObject_t *car, Direction carDirection, int height, int width, int posY, int posX, int velocity){
+    initialDefaultValues(car);
+    car->height = height;
+    car->position.x = posX;
+    car->position.y = posY;
+    car->velocity=velocity;
+    car->width = width;
+    car->type = 'B';
+    car->direction = carDirection;
+    car->initialWidth = width;
+}
+
 void initialRandomCar(MovingObject_t *car,Direction carDirection,int postionY, int initialPositionX=0 ){ 
     initialDefaultValues(car);
     car->width = 0;

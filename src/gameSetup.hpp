@@ -10,26 +10,59 @@
 
 using namespace std;
 
+void getCarsFromSeed(FILE * seedFile,MovingObject_t **cars, int carsNumber,int boardWidth){
+    for(int c = 0; c < carsNumber; c++){
+        fseek(seedFile,SEEK_CUR,1);
+        char carType;
+        fscanf(seedFile,"%c",&carType);
+        fseek( seedFile,SEEK_CUR,1);
+        if(carType == 'B'){
+            int height;
+            int width;
+            int posY;
+            int posX;
+            int velocity;
+            char direction;
+
+            fscanf(seedFile, "%d %d %d %d %d %c", &height, &width, &posY, &posX, &velocity, &direction);
+
+            cars[c] = new MovingObject_t;
+            initialBouncingCar(cars[c],(direction == 'R' ? RIGHT : LEFT),height,width,posY,posX,velocity);
+            
+            continue;
+        }
+        char direction;
+        int posY;
+        fscanf(seedFile,"%c",&direction);
+        fscanf(seedFile,"%d",&posY);
+
+        cars[c] = new MovingObject_t;
+        initialRandomCar(cars[c],(direction == 'R' ? RIGHT : LEFT),posY,(direction == 'R' ? 0 : boardWidth));
+    }
+}
+
 bool getDataFromSeed(FrogGame_t *frogGame){
-    ifstream seedFile("./seeds/default.txt");
+    FILE * seedFile = fopen("./seeds/default.txt","r");
     Board_t board;
     MovingObject_t frog;
 
-    if(!seedFile.is_open()){
+    if(seedFile == NULL){
         return false;
     }
     
     //getting board data
-    seedFile >> board.height >> board.width;
+    // seedFile >> board.height >> board.width;
+    fscanf(seedFile, "%d", &board.height);
+    fscanf(seedFile, "%d", &board.width);
     chtype **gameBoard;
     char seedIcon;
 
     gameBoard = new chtype*[board.height];
     for(int i = 0; i < board.height; i++){
         gameBoard[i] = new chtype[board.width];
-        seedFile.get(seedIcon);
+        seedIcon = getc(seedFile);
         for(int j =0; j < board.width; j++){
-            seedFile.get(seedIcon);
+            seedIcon = getc(seedFile);
             switch(seedIcon){
                 case SEED_GRASS_ICON:
                     seedIcon = GRASS_ICON;
@@ -51,12 +84,20 @@ bool getDataFromSeed(FrogGame_t *frogGame){
             gameBoard[i][j] = seedIcon;
         }
     }
+    int carsNumber;
+    fscanf(seedFile, " %d",&carsNumber);
+    MovingObject_t **cars;
+    cars = new MovingObject_t*[carsNumber];
+
+    getCarsFromSeed(seedFile,cars,carsNumber,board.width);
 
     board.board = gameBoard;
     frogGame->gameBoard = board;
     frogGame->frog = frog;
+    frogGame->cars = cars;
+    frogGame->carsNumber = carsNumber;
 
-    seedFile.close();
+    fclose(seedFile);
     return true;
 }
 void initializeBoardWindow(WINDOW *board_win){
@@ -101,42 +142,6 @@ void initializeGame(FrogGame_t *frogGame){
 
     initializeBoard(&(frogGame->gameBoard));
     initializeFrog(&(frogGame->frog));
-
-    frogGame->carsNumber = 5;
-    frogGame->cars = new MovingObject_t*[frogGame->carsNumber];
-
-    MovingObject_t *car = new MovingObject_t;
-    car->colorNumber = 3;
-    car->height = 1;
-    car->icon = CAR_ICON;
-    car->position.x = 5;
-    car->position.y = 1;
-    car->velocity=10;
-    car->width = 3;
-    car->type = 'B';
-    car->direction = RIGHT;
-    car->initialWidth = 3;
-
-    frogGame->cars[0] = car;
-
-
-    MovingObject_t *car1 = new MovingObject_t;
-    initialRandomCar(car1,LEFT,8,frogGame->gameBoard.width/SCALE_X);
-    frogGame->cars[1] = car1;
-
-    MovingObject_t *car2 = new MovingObject_t;
-    initialRandomCar(car2,RIGHT,5);
-    frogGame->cars[2] = car2;
-
-    MovingObject_t *car3 = new MovingObject_t;
-    initialRandomCar(car3,RIGHT,4);
-    frogGame->cars[3] = car3;
-
-    MovingObject_t *car4 = new MovingObject_t;
-    initialRandomCar(car4,LEFT,2,frogGame->gameBoard.width/SCALE_X);
-    frogGame->cars[4] = car4;
-
-
 }
 
 
