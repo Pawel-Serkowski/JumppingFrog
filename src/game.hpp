@@ -10,48 +10,38 @@
 #include "windowFunctions.hpp"
 #include "drawGame.hpp"
 
-void processInput(chtype input, Direction *frogDirection){
-    if(input == KEY_UP || input == 'w'){
-        *frogDirection = UP;
-    }else if(input == KEY_DOWN || input == 's'){
-        *frogDirection = DOWN;  
-    }else if(input == KEY_RIGHT || input == 'd'){
-        *frogDirection = RIGHT;
-    }
-    else if(input == KEY_LEFT || input =='a'){
-        *frogDirection = LEFT;
-    }
-}
-
 void doLogic(FrogGame_t *game){
     int realBoardHeight = (game->gameBoard.height)/SCALE_Y - 2*OFFSET;
     int realBoardwidth = (game->gameBoard.width)/SCALE_X - 2*OFFSET;
 
-    moveFrog(&(game->frog),&(game->frog.direction), realBoardHeight, realBoardwidth);
+    moveFrog(&(game->frog),&(game->frog.direction), realBoardHeight, realBoardwidth, game->gameBoard.board);
 
     for(int c = 0; c < game->carsNumber; c++){
         moveCar(game->cars[c],realBoardwidth,game->gameBoard.board[game->cars[c]->position.y]);
     }
 }
 
-void gameLoop(FrogGame_t *frogGame){
-    MovingObject_t frog = frogGame->frog;
+bool isFrogOnFinishLine(MovingObject_t frog){
+    return frog.position.y == 0;
+}
 
+void gameLoop(FrogGame_t *frogGame){
+    timeout(0);
     drawGame(*frogGame);
     while(true){
         chtype input = getch();
         if(input == 'q')break;
-        if(frog.moveTimer ==0){
+        if(frogGame->frog.moveTimer ==0){
             processInput(input,&(frogGame->frog.direction));
             if(input != ERR){
-                frog.moveTimer = FROG_JUMP_SPEED;
+                frogGame->frog.moveTimer = FROG_JUMP_SPEED;
             }
         }
 
         doLogic(frogGame);
 
-        if(frog.moveTimer > 0){
-            frog.moveTimer -= 1;
+        if(frogGame->frog.moveTimer > 0){
+            frogGame->frog.moveTimer -= 1;
         }
         for(int c = 0; c < frogGame->carsNumber;  c++){
             if(frogGame->cars[c]->moveTimer > 0){
@@ -62,6 +52,17 @@ void gameLoop(FrogGame_t *frogGame){
 
         drawGame(*frogGame);
         refreshWindow(frogGame->gameBoard.board_win);
+
+        if(isFrogOnFinishLine(frogGame->frog)){
+            frogGame->isGameEnded = true;
+        }
+        for(int c = 0; c < frogGame->carsNumber;  c++){
+            if(isCollisionWithCar(frogGame->cars[c],frogGame->frog)){
+                frogGame->isGameEnded = true;
+                frogGame->frog.isAlive = false;
+            }
+        }
+        if(frogGame->isGameEnded)break;
 
         usleep(TICK_DURATION*1000);
     }

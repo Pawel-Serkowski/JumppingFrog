@@ -42,9 +42,11 @@ struct Board_t{
 struct FrogGame_t 
 {
     bool isSeedOkay;
+    bool isGameEnded;
+    int carsNumber;
     Board_t gameBoard;
     MovingObject_t frog;
-    int carsNumber;
     MovingObject_t **cars;
+    
 };
 

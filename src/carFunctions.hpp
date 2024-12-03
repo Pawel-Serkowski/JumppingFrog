@@ -111,3 +111,13 @@ void moveCar(MovingObject_t *car, int boardWidth, chtype *road){
     if(car->velocity >= car->moveTimer)car->moveTimer = car->velocity;
     
 }
+
+bool isCollisionWithCar(MovingObject_t *car, MovingObject_t frog){
+    for(int h = 0; h <car->height; h++){
+        for(int w = 0; w < car->width; w++){
+            if(frog.position.x == (car->position.x+w) && frog.position.y == (car->position.y+h) )return true;
+        }
+    }
+    return false;
+
+}

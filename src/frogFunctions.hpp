@@ -2,25 +2,38 @@
 
 #include "customTypes.hpp"
 
-void moveFrog(MovingObject_t *frog, Direction *frogDir, int boardHeight, int boardWidth){
+void processInput(chtype input, Direction *frogDirection){
+    if(input == KEY_UP || input == 'w'){
+        *frogDirection = UP;
+    }else if(input == KEY_DOWN || input == 's'){
+        *frogDirection = DOWN;  
+    }else if(input == KEY_RIGHT || input == 'd'){
+        *frogDirection = RIGHT;
+    }
+    else if(input == KEY_LEFT || input =='a'){
+        *frogDirection = LEFT;
+    }
+}
+
+void moveFrog(MovingObject_t *frog, Direction *frogDir, int boardHeight, int boardWidth, chtype **board){
     if(*frogDir == STAY) return;
     switch(*frogDir){
         case UP:
-            if(frog->position.y > 0)frog->position.y -=1;
+            if(frog->position.y > 0 && board[frog->position.y-1][frog->position.x]!= 'L')frog->position.y -=1;
             break;
         case DOWN:
-            if(frog->position.y <= boardHeight) frog->position.y +=1;
+            if(frog->position.y <= boardHeight  && board[frog->position.y+1][frog->position.x]!= 'L') frog->position.y +=1;
             break;
         case RIGHT:
-            if(frog->position.x <= boardWidth)frog->position.x +=1;
+            if(frog->position.x <= boardWidth  && board[frog->position.y][frog->position.x+1]!= 'L')frog->position.x +=1;
             break;
         case LEFT:
-            if(frog->position.x > 0)frog->position.x -=1;
+            if(frog->position.x > 0  && board[frog->position.y][frog->position.x-1] != 'L')frog->position.x -=1;
             break;
         default:
             break;
         
     }
     *frogDir = STAY;
-
 }
+
