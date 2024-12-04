@@ -1,5 +1,5 @@
 bouncing car: type, height, width, py, px
-normal car: type, direction, position, 
+normal/stopping car: type, direction, position, 
 
 N L 8
 N L 5

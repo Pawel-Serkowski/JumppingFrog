@@ -2,6 +2,8 @@
 #include <time.h>
 #include <stdlib.h>
 #include <ncurses.h>
+#include "string.h"
+
 
 #include "src/gameSetup.hpp"
 #include "src/customTypes.hpp"
@@ -17,7 +19,7 @@ int main(){
 
     Player_t player;
     player.levelNumber = 1;
-    player.nick = "SerekJunior";
+    strcpy(player.nick,"SerekJunior");
     
     FrogGame_t frogGame;
     initializeGame(&frogGame);
@@ -28,7 +30,7 @@ int main(){
         getch();
         return 0;
     }
-    player.points = 1000;
+    player.points = 100*frogGame.gameBoard.height/2;
     gameLoop(&frogGame, &player);
 
     if(frogGame.isGameEnded && frogGame.frog.isAlive == true){

@@ -53,7 +53,7 @@ struct FrogGame_t
 };
 
 struct Player_t{
-    char *nick;
+    char nick[20];
     int points;
     int levelNumber;
 };

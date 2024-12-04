@@ -19,7 +19,7 @@ void doLogic(FrogGame_t *game){
     moveFrog(&(game->frog),&(game->frog.direction), realBoardHeight, realBoardwidth, game->gameBoard.board);
 
     for(int c = 0; c < game->carsNumber; c++){
-        moveCar(game->cars[c],realBoardwidth,game->gameBoard.board[game->cars[c]->position.y]);
+        moveCar(game->cars[c],realBoardwidth,game->gameBoard.board[game->cars[c]->position.y],game->frog);
     }
 }
 
@@ -32,6 +32,8 @@ void gameLoop(FrogGame_t *frogGame, Player_t *player){
     int pointTime = POINT_DURATION;
     timeout(0);
     drawGame(*frogGame);
+    bool isAccFriendlyCar = false;
+    int accCarY = -1;
     while(true){
         chtype input = getch();
         if(input == 'q')break;
@@ -61,9 +63,32 @@ void gameLoop(FrogGame_t *frogGame, Player_t *player){
             frogGame->isGameEnded = true;
         }
         for(int c = 0; c < frogGame->carsNumber;  c++){
+            if(input == KEY_UP  || input == 'w'){
+                if(frogGame->cars[c]->type == FRIENDLY_CAR_ICON && isCarAccepted(frogGame->cars[c],frogGame->frog)){
+                    isAccFriendlyCar = true;
+                    accCarY = frogGame->cars[c]->position.y;
+                }
+                else if(frogGame->cars[c]->position.y == accCarY){
+                        isAccFriendlyCar = false;
+                        mvaddch(0,0,'1');
+                }
+
+            }else if(input == ERR){
+                isAccFriendlyCar = isAccFriendlyCar;
+            }else{
+                isAccFriendlyCar = false;
+                accCarY = -1;
+                mvaddch(0,0,'2');
+            }
+            
             if(isCollisionWithCar(frogGame->cars[c],frogGame->frog)){
-                frogGame->isGameEnded = true;
-                frogGame->frog.isAlive = false;
+                if(isAccFriendlyCar){
+                    moveWithCar(&frogGame->frog,frogGame->cars[c],frogGame->gameBoard.width/SCALE_X);
+                }else{
+                    frogGame->isGameEnded = true;
+                    frogGame->frog.isAlive = false;
+                }
+
             }
         }
         updateUpStats(frogGame->stats_up_win,frogGame->frog.isAlive, player->points);
