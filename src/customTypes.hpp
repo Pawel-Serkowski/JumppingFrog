@@ -58,3 +58,13 @@ struct Player_t{
     int levelNumber;
 };
 
+struct RankingRecord_t{
+    char name[20];
+    int score;
+};
+
+struct Ranking_t{
+    RankingRecord_t *rankingRecords;
+    int numberOfRecords;
+};
+

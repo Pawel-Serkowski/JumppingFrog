@@ -6,13 +6,21 @@
 
 
 #include "src/gameSetup.hpp"
+#include "src/gameEnd.hpp"
 #include "src/customTypes.hpp"
 #include "src/windowFunctions.hpp"
+#include "src/rankingFunctions.hpp"
 #include "src/game.hpp"
 
 using namespace std;
 
 int main(){
+    Ranking_t ranking;
+    if(!initializeRankingFromFile(&ranking)){
+        cout << "cannot initialize ranking..." << "\n";
+        return 0;
+    }
+    
 
     initializeGameWindow();
     srand(time(NULL));    
@@ -33,6 +41,11 @@ int main(){
     player.points = 100*frogGame.gameBoard.height/2;
     gameLoop(&frogGame, &player);
 
+
+    strcpy(ranking.rankingRecords[ranking.numberOfRecords-1].name,player.nick);
+    ranking.rankingRecords[ranking.numberOfRecords-1].score = player.points;
+    saveAndCloseRanking(&ranking);
+
     if(frogGame.isGameEnded && frogGame.frog.isAlive == true){
         char message[] = "You passed the level\0";
         int textLength = sizeof(message)/sizeof(char);
@@ -42,8 +55,8 @@ int main(){
         int textLength = sizeof(message)/sizeof(char);
         endWindow(frogGame.gameBoard.board_win,frogGame.gameBoard.width, frogGame.gameBoard.height, message, textLength);
     }
-    
-    
+
+    destroyGame(&frogGame);
     destroyGameWindow();
     return 0;
 }   

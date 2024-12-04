@@ -44,3 +44,6 @@
 //---
 #define FRIENDLY_CAR_COLOR_NUMBER 6
 #define FRIENDLY_CAR_COLOR COLOR_MAGENTA
+
+
+#define RANKING_FILE "./files/ranking.txt"

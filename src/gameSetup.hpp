@@ -1,7 +1,7 @@
 #pragma once
 
 #include <ncurses.h>
-#include <fstream>
+#include <stdlib.h>
 
 #include "customTypes.hpp"
 #include "CONFIG.hpp"
@@ -44,7 +44,7 @@ void getCarsFromSeed(FILE * seedFile,MovingObject_t **cars, int carsNumber,int b
 }
 
 bool getDataFromSeed(FrogGame_t *frogGame){
-    FILE * seedFile = fopen("./seeds/default.txt","r");
+    FILE * seedFile = fopen("./files/default.txt","r");
     Board_t board;
     MovingObject_t frog;
 

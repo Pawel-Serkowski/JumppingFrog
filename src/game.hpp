@@ -36,7 +36,12 @@ void gameLoop(FrogGame_t *frogGame, Player_t *player){
     int accCarY = -1;
     while(true){
         chtype input = getch();
-        if(input == 'q')break;
+        if(input == 'q'){
+            frogGame->frog.isAlive = false;
+            frogGame->isGameEnded = false;
+            player->points = -1;
+            break;
+        }
         if(frogGame->frog.moveTimer ==0){
             processInput(input,&(frogGame->frog.direction));
             if(input != ERR){
@@ -87,6 +92,7 @@ void gameLoop(FrogGame_t *frogGame, Player_t *player){
                 }else{
                     frogGame->isGameEnded = true;
                     frogGame->frog.isAlive = false;
+                    player->points = 0;
                 }
 
             }
