@@ -11,6 +11,7 @@
 #include "carFunctions.hpp"
 #include "windowFunctions.hpp"
 #include "statusbarFunctions.hpp"
+#include "storkFunctions.hpp"
 
 void doLogic(FrogGame_t *game){
     int realBoardHeight = (game->gameBoard.height)/SCALE_Y - 2*OFFSET;
@@ -59,6 +60,7 @@ void gameLoop(FrogGame_t *frogGame, Player_t *player){
                 frogGame->cars[c]->moveTimer -= 1;
             }
         }
+        moveStork(&frogGame->stork,frogGame->frog);
 
 
         drawGame(*frogGame);
@@ -75,7 +77,6 @@ void gameLoop(FrogGame_t *frogGame, Player_t *player){
                 }
                 else if(frogGame->cars[c]->position.y == accCarY){
                         isAccFriendlyCar = false;
-                        mvaddch(0,0,'1');
                 }
 
             }else if(input == ERR){
@@ -83,7 +84,6 @@ void gameLoop(FrogGame_t *frogGame, Player_t *player){
             }else{
                 isAccFriendlyCar = false;
                 accCarY = -1;
-                mvaddch(0,0,'2');
             }
             
             if(isCollisionWithCar(frogGame->cars[c],frogGame->frog)){
@@ -97,6 +97,13 @@ void gameLoop(FrogGame_t *frogGame, Player_t *player){
 
             }
         }
+
+        if(isFrogEaten(frogGame->stork,frogGame->frog)){
+            frogGame->isGameEnded = true;
+            frogGame->frog.isAlive = false;
+            player->points = 0;
+        }
+
         updateUpStats(frogGame->stats_up_win,frogGame->frog.isAlive, player->points);
         updateBotStats(frogGame->stats_bot_win,time/100,player->nick);
 

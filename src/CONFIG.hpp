@@ -6,6 +6,7 @@
 #define GRASS_ICON '.'
 #define FROG_ICON 'O'
 #define CAR_ICON '#'
+#define STORK_ICON 'S'
 #define FRIENDLY_CAR_ICON 'F'
 #define OBSTACLE_ICON 'L'
 
@@ -16,8 +17,8 @@
 
 //size definition
 #define OFFSET 1 //distance beetween border and content
-#define SCALE_X 2
-#define SCALE_Y 2
+#define SCALE_X 3
+#define SCALE_Y 3
 #define STATS_WINDOW_HEIGHT 1
 
 //time definition
@@ -44,6 +45,9 @@
 //---
 #define FRIENDLY_CAR_COLOR_NUMBER 6
 #define FRIENDLY_CAR_COLOR COLOR_MAGENTA
+
+#define STORK_COLOR_NUMBER 7
+#define STORK_COLOR COLOR_CYAN
 
 
 #define RANKING_FILE "./files/ranking.txt"

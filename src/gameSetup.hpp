@@ -11,6 +11,7 @@
 #include "windowFunctions.hpp"
 #include "boardFunctions.hpp"
 #include "statusbarFunctions.hpp"
+#include "storkFunctions.hpp"
 
 void getCarsFromSeed(FILE * seedFile,MovingObject_t **cars, int carsNumber,int boardWidth){
     for(int c = 0; c < carsNumber; c++){
@@ -125,6 +126,7 @@ void initializeGame(FrogGame_t *frogGame){
     initializeBoard(&(frogGame->gameBoard));
     initializeStatsWindows(frogGame);
     initializeFrog(&(frogGame->frog));
+    initializeStork(&(frogGame->stork),frogGame->gameBoard.height/SCALE_Y);
 }
 
 

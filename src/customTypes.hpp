@@ -46,6 +46,7 @@ struct FrogGame_t
     int carsNumber;
     Board_t gameBoard;
     MovingObject_t frog;
+    MovingObject_t stork;
     MovingObject_t **cars;
     WINDOW *stats_up_win;
     WINDOW *stats_bot_win;
