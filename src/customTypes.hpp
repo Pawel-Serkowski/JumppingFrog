@@ -47,6 +47,14 @@ struct FrogGame_t
     Board_t gameBoard;
     MovingObject_t frog;
     MovingObject_t **cars;
-    
+    WINDOW *stats_up_win;
+    WINDOW *stats_bot_win;
+    WINDOW *keyMenu;
+};
+
+struct Player_t{
+    char *nick;
+    int points;
+    int levelNumber;
 };
 

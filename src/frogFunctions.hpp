@@ -2,6 +2,17 @@
 
 #include "customTypes.hpp"
 
+void initializeFrog(MovingObject_t *frog){
+    frog->icon=FROG_ICON;
+    frog->width=1;
+    frog->height=1;
+    frog->colorNumber=FROG_COLOR_NUMBER;
+    frog->isAlive = true;
+    frog->type = 'F';
+    frog->direction = STAY;
+    frog->moveTimer = 0;
+}
+
 void processInput(chtype input, Direction *frogDirection){
     if(input == KEY_UP || input == 'w'){
         *frogDirection = UP;

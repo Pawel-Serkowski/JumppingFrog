@@ -14,6 +14,10 @@ int main(){
 
     initializeGameWindow();
     srand(time(NULL));    
+
+    Player_t player;
+    player.levelNumber = 1;
+    player.nick = "SerekJunior";
     
     FrogGame_t frogGame;
     initializeGame(&frogGame);
@@ -21,12 +25,14 @@ int main(){
     if(!frogGame.isSeedOkay){ 
         endwin();
         cout << "Something gone wrong with seed :(." << "\n";
+        getch();
         return 0;
     }
-    gameLoop(&frogGame);
+    player.points = 1000;
+    gameLoop(&frogGame, &player);
 
     if(frogGame.isGameEnded && frogGame.frog.isAlive == true){
-        char message[] = "Congratulations, you passed the level\0";
+        char message[] = "You passed the level\0";
         int textLength = sizeof(message)/sizeof(char);
         endWindow(frogGame.gameBoard.board_win,frogGame.gameBoard.width, frogGame.gameBoard.height, message, textLength);
     }else{

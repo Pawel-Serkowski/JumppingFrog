@@ -1,1 +1,0 @@
-TO get seed data create seed struct and then get data into good structures
