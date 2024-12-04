@@ -13,11 +13,16 @@
 #define SEED_FROG_ICON 'F'
 #define SEED_OBSTACLE_ICON 'L'
 
+//size definition
 #define OFFSET 1 //distance beetween border and content
-#define SCALE_X 3
-#define SCALE_Y 3
+#define SCALE_X 2
+#define SCALE_Y 2
+#define STATS_WINDOW_HEIGHT 1
+
+//time definition
 #define FROG_JUMP_SPEED 10
 #define TICK_DURATION 10
+#define POINT_DURATION 10
 
 //car generate configurations
 #define CAR_MAX_SPEED 5

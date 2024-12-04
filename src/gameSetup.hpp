@@ -4,11 +4,13 @@
 #include <fstream>
 
 #include "customTypes.hpp"
-#include "windowFunctions.hpp"
 #include "CONFIG.hpp"
-#include "carFunctions.hpp"
 
-using namespace std;
+#include "carFunctions.hpp"
+#include "frogFunctions.hpp"
+#include "windowFunctions.hpp"
+#include "boardFunctions.hpp"
+#include "statusbarFunctions.hpp"
 
 void getCarsFromSeed(FILE * seedFile,MovingObject_t **cars, int carsNumber,int boardWidth){
     for(int c = 0; c < carsNumber; c++){
@@ -49,9 +51,7 @@ bool getDataFromSeed(FrogGame_t *frogGame){
     if(seedFile == NULL){
         return false;
     }
-    
     //getting board data
-    // seedFile >> board.height >> board.width;
     fscanf(seedFile, "%d", &board.height);
     fscanf(seedFile, "%d", &board.width);
     chtype **gameBoard;
@@ -96,11 +96,11 @@ bool getDataFromSeed(FrogGame_t *frogGame){
             gameBoard[i][j] = seedIcon;
         }
     }
+
     int carsNumber;
     fscanf(seedFile, " %d",&carsNumber);
     MovingObject_t **cars;
     cars = new MovingObject_t*[carsNumber];
-
     getCarsFromSeed(seedFile,cars,carsNumber,board.width);
 
     board.board = gameBoard;
@@ -112,38 +112,6 @@ bool getDataFromSeed(FrogGame_t *frogGame){
     fclose(seedFile);
     return true;
 }
-void initializeBoardWindow(WINDOW *board_win){
-    addBorder(board_win);
-}
-
-void initializeBoard(Board_t *gameBoard){
-    gameBoard->height *= SCALE_Y;
-    gameBoard->width *= SCALE_X;
-
-    int xMax, yMax;
-    getmaxyx(stdscr,yMax,xMax);
-    gameBoard->startRow = ((yMax/2)-(gameBoard->height/2));
-    gameBoard->startCol = ((xMax/2)-(gameBoard->width/2));
-
-    gameBoard->board_win = newwin(gameBoard->height+(2*OFFSET),gameBoard->width+(2*OFFSET),gameBoard->startRow-1,gameBoard->startCol-1);
-
-
-    initializeBoardWindow(gameBoard->board_win);
-    refreshWindow(gameBoard->board_win);
-}
-
-
-
-void initializeFrog(MovingObject_t *frog){
-    frog->icon=FROG_ICON;
-    frog->width=1;
-    frog->height=1;
-    frog->colorNumber=FROG_COLOR_NUMBER;
-    frog->isAlive = true;
-    frog->type = 'F';
-    frog->direction = STAY;
-    frog->moveTimer = 0;
-}
 
 void initializeGame(FrogGame_t *frogGame){
     if(!getDataFromSeed(frogGame)){
@@ -153,7 +121,9 @@ void initializeGame(FrogGame_t *frogGame){
     frogGame->isSeedOkay=true;
     frogGame->isGameEnded = false;
 
+
     initializeBoard(&(frogGame->gameBoard));
+    initializeStatsWindows(frogGame);
     initializeFrog(&(frogGame->frog));
 }
 

@@ -3,12 +3,14 @@
 #include <ncurses.h>
 #include <unistd.h>
 
-#include "frogFunctions.hpp"
-#include "carFunctions.hpp"
 #include "customTypes.hpp"
 #include "CONFIG.hpp"
-#include "windowFunctions.hpp"
 #include "drawGame.hpp"
+
+#include "frogFunctions.hpp"
+#include "carFunctions.hpp"
+#include "windowFunctions.hpp"
+#include "statusbarFunctions.hpp"
 
 void doLogic(FrogGame_t *game){
     int realBoardHeight = (game->gameBoard.height)/SCALE_Y - 2*OFFSET;
@@ -25,7 +27,9 @@ bool isFrogOnFinishLine(MovingObject_t frog){
     return frog.position.y == 0;
 }
 
-void gameLoop(FrogGame_t *frogGame){
+void gameLoop(FrogGame_t *frogGame, Player_t *player){
+    int time;
+    int pointTime = POINT_DURATION;
     timeout(0);
     drawGame(*frogGame);
     while(true){
@@ -62,9 +66,18 @@ void gameLoop(FrogGame_t *frogGame){
                 frogGame->frog.isAlive = false;
             }
         }
-        if(frogGame->isGameEnded)break;
+        updateUpStats(frogGame->stats_up_win,frogGame->frog.isAlive, player->points);
+        updateBotStats(frogGame->stats_bot_win,time/100,player->nick);
 
+        if(frogGame->isGameEnded)break;
+        if(pointTime == 0){
+            player->points --;
+            pointTime = POINT_DURATION;
+        }
+        time++;
+        pointTime--;
         usleep(TICK_DURATION*1000);
     }
+    timeout(-1);
 }
 

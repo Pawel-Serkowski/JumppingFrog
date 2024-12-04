@@ -36,8 +36,8 @@ void addBorder(WINDOW *board_win){
     box(board_win,0,0);
 }
 
-void refreshWindow(WINDOW *board_win){
-    wrefresh(board_win);
+void refreshWindow(WINDOW *win){
+    wrefresh(win);
 }
 
 void destroyGame(chtype**gameBoard){
@@ -49,7 +49,8 @@ void endWindow(WINDOW *win, int width, int height, char* endText, int textLength
     int startY = height / 2;     
     int startX = (width - textLength) / 2;
     mvwprintw(win,startY,startX,"%s",endText);
-    mvwprintw(win,startY+2,startX,"%s", "press any key to close game");
+    mvwprintw(win,startY+2,startX,"%s", "press any key");
+    addBorder(win);
     wrefresh(win);
     timeout(-1);
     getch();
