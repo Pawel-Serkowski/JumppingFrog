@@ -23,8 +23,18 @@ int main(){
         cout << "Something gone wrong with seed :(." << "\n";
         return 0;
     }
-
     gameLoop(&frogGame);
+
+    if(frogGame.isGameEnded && frogGame.frog.isAlive == true){
+        char message[] = "Congratulations, you passed the level\0";
+        int textLength = sizeof(message)/sizeof(char);
+        endWindow(frogGame.gameBoard.board_win,frogGame.gameBoard.width, frogGame.gameBoard.height, message, textLength);
+    }else{
+        char message[] = "You are dead xD\0";
+        int textLength = sizeof(message)/sizeof(char);
+        endWindow(frogGame.gameBoard.board_win,frogGame.gameBoard.width, frogGame.gameBoard.height, message, textLength);
+    }
+    
     
     destroyGameWindow();
     return 0;

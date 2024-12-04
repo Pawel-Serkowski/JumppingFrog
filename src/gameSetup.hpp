@@ -58,9 +58,21 @@ bool getDataFromSeed(FrogGame_t *frogGame){
     char seedIcon;
 
     gameBoard = new chtype*[board.height];
-    for(int i = 0; i < board.height; i++){
+    gameBoard[0] = new chtype[board.width];
+    seedIcon = getc(seedFile);
+    for(int j = 0;j < board.width;j++){
+        seedIcon = getc(seedFile);
+        if(seedIcon == SEED_GRASS_ICON){
+            seedIcon = ROAD_ICON;
+        }else{
+            seedIcon = OBSTACLE_ICON;
+        }
+        gameBoard[0][j] = seedIcon;
+    }
+    for(int i = 1; i < board.height; i++){
         gameBoard[i] = new chtype[board.width];
         seedIcon = getc(seedFile);
+
         for(int j =0; j < board.width; j++){
             seedIcon = getc(seedFile);
             switch(seedIcon){
@@ -139,6 +151,7 @@ void initializeGame(FrogGame_t *frogGame){
         return;
     }
     frogGame->isSeedOkay=true;
+    frogGame->isGameEnded = false;
 
     initializeBoard(&(frogGame->gameBoard));
     initializeFrog(&(frogGame->frog));
