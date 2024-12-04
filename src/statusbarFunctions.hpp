@@ -10,7 +10,7 @@
 void initializeStatsWindows(FrogGame_t *frogGame){
     frogGame->stats_up_win = newwin(STATS_WINDOW_HEIGHT,frogGame->gameBoard.width+(2*OFFSET),frogGame->gameBoard.startRow-STATS_WINDOW_HEIGHT-1, frogGame->gameBoard.startCol-OFFSET);
 
-    frogGame->stats_bot_win = newwin(3*STATS_WINDOW_HEIGHT,frogGame->gameBoard.width+(2*OFFSET),frogGame->gameBoard.startRow+frogGame->gameBoard.height+1, frogGame->gameBoard.startCol-OFFSET);
+    frogGame->stats_bot_win = newwin(4*STATS_WINDOW_HEIGHT,frogGame->gameBoard.width+(2*OFFSET),frogGame->gameBoard.startRow+frogGame->gameBoard.height+1, frogGame->gameBoard.startCol-OFFSET);
 
     refreshWindow(frogGame->stats_up_win);
     refreshWindow(frogGame->stats_bot_win);
@@ -36,6 +36,11 @@ void updateBotStats(WINDOW *window, int timeSeconds, char*nick){
 
     mvwprintw(window,0,width-6,"%5ds",timeSeconds);
     mvwprintw(window,0,0,"%s",nick);
+
+    wattron(window,COLOR_PAIR(FRIENDLY_CAR_COLOR_NUMBER));
+    mvwprintw(window,2,0,"%s","Game made by s203389");
+    mvwprintw(window,3,0,"%s","~ Pawel Serkowski");
+    wattroff(window,COLOR_PAIR(FRIENDLY_CAR_COLOR_NUMBER));
 
     refreshWindow(window);
 }

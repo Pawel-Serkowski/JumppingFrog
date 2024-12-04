@@ -39,7 +39,7 @@ void getCarsFromSeed(FILE * seedFile,MovingObject_t **cars, int carsNumber,int b
         fscanf(seedFile,"%d",&posY);
 
         cars[c] = new MovingObject_t;
-        initialRandomCar(cars[c],(direction == 'R' ? RIGHT : LEFT),posY,(direction == 'R' ? 0 : boardWidth));
+        initialRandomCar(cars[c],carType,(direction == 'R' ? RIGHT : LEFT),posY,(direction == 'R' ? 0 : boardWidth));
     }
 }
 
