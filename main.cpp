@@ -38,7 +38,7 @@ int main(){
         getch();
         return 0;
     }
-    player.points = 100*frogGame.gameBoard.height/2;
+    player.points = 50*(frogGame.gameBoard.height/SCALE_Y);
     gameLoop(&frogGame, &player);
 
 

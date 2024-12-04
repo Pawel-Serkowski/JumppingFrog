@@ -157,10 +157,7 @@ bool isCollisionWithCar(MovingObject_t *car, MovingObject_t frog){
 
 bool isCarAccepted(MovingObject_t *car, MovingObject_t frog){
     if(car->position.y == frog.position.y && frog.position.x >= car->position.x && frog.position.x <= car->position.x+car->width){
-        mvaddch(0,0,'t');
         return true;
     } 
-    mvaddch(0,0,'f');
     return false;
-
 }

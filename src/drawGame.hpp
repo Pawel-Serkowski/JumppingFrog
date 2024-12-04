@@ -70,5 +70,7 @@ void drawGame(FrogGame_t frogGame){
     for(int c = 0; c < frogGame.carsNumber; c++){
         drawEntity(frogGame.gameBoard.board_win,*frogGame.cars[c]);
     }
+
+    if(frogGame.stork.position.y < frogGame.gameBoard.height/SCALE_Y )drawEntity(frogGame.gameBoard.board_win, frogGame.stork);
     
 }
