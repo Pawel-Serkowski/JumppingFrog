@@ -105,51 +105,6 @@ bool getDataFromSeed(FrogGame_t *frogGame, char*filePath){
     if(seedFile == NULL){
         return false;
     }
-    //getting board data
-    // fscanf(seedFile, "%d", &board.height);
-    // fscanf(seedFile, "%d", &board.width);
-    // chtype **gameBoard;
-    // char seedIcon;
-
-    // gameBoard = new chtype*[board.height];
-    // gameBoard[0] = new chtype[board.width];
-    // seedIcon = getc(seedFile);
-    // for(int j = 0;j < board.width;j++){
-    //     seedIcon = getc(seedFile);
-    //     if(seedIcon == SEED_GRASS_ICON){
-    //         seedIcon = ROAD_ICON;
-    //     }else{
-    //         seedIcon = OBSTACLE_ICON;
-    //     }
-    //     gameBoard[0][j] = seedIcon;
-    // }
-    // for(int i = 1; i < board.height; i++){
-    //     gameBoard[i] = new chtype[board.width];
-    //     seedIcon = getc(seedFile);
-
-    //     for(int j =0; j < board.width; j++){
-    //         seedIcon = getc(seedFile);
-    //         switch(seedIcon){
-    //             case SEED_GRASS_ICON:
-    //                 seedIcon = GRASS_ICON;
-    //                 break;
-    //             case SEED_ROAD_ICON:
-    //                 seedIcon = ROAD_ICON;
-    //                 break;
-    //             case SEED_FROG_ICON:
-    //                 seedIcon = GRASS_ICON;
-    //                 frog.position.x = j;
-    //                 frog.position.y = i;
-    //                 break;
-    //             case SEED_OBSTACLE_ICON:
-    //                 seedIcon = OBSTACLE_ICON;
-    //                 break;
-    //             default:
-    //                 seedIcon = '?';
-    //         }
-    //         gameBoard[i][j] = seedIcon;
-    //     }
-    // }
 
     getBoardDataFromSeed(seedFile,&board,&frog);
 

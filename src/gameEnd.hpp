@@ -7,10 +7,11 @@
 #include "recorderFunctions.hpp"
 
 void destroyBoard(Board_t *board){
-    for(int i = 0; i < board->height; i++){
-        delete board->board[i];
+    for(int i = 0; i < board->height/SCALE_X; i++){
+        delete[] board->board[i];
     }
-    delete []board->board;
+    delete[] board->board;
+    board->board = nullptr;
 
     delwin(board->board_win);
 }
