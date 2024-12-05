@@ -8,7 +8,7 @@
 #include "drawGame.hpp"
 
 void initializeStatsWindows(FrogGame_t *frogGame){
-    frogGame->stats_up_win = newwin(STATS_WINDOW_HEIGHT,frogGame->gameBoard.width+(2*OFFSET),frogGame->gameBoard.startRow-STATS_WINDOW_HEIGHT-1, frogGame->gameBoard.startCol-OFFSET);
+    frogGame->stats_up_win = newwin(STATS_WINDOW_HEIGHT+1,frogGame->gameBoard.width+(2*OFFSET),frogGame->gameBoard.startRow-STATS_WINDOW_HEIGHT-2, frogGame->gameBoard.startCol-OFFSET);
 
     frogGame->stats_bot_win = newwin(4*STATS_WINDOW_HEIGHT,frogGame->gameBoard.width+(2*OFFSET),frogGame->gameBoard.startRow+frogGame->gameBoard.height+1, frogGame->gameBoard.startCol-OFFSET);
 
@@ -17,15 +17,16 @@ void initializeStatsWindows(FrogGame_t *frogGame){
 }
 
 
-void updateUpStats(WINDOW * window, bool isAlive, int points){
+void updateUpStats(WINDOW * window, bool isAlive, int points, int level){
     int width;
     width = getmaxx(window);
 
-    mvwprintw(window,0,0,"Points: %d",points);
+    mvwprintw(window,1,0,"Points: %i ",points);
 
     wattron(window,COLOR_PAIR(isAlive ? FROG_COLOR_NUMBER : CAR_COLOR_NUMBER));
-    mvwprintw(window,0,width-5,"%5s",(isAlive ? "Alive" : "Dead"));
+    mvwprintw(window,1,width-5,"%5s",(isAlive ? "Alive" : "Dead"));
     wattroff(window,COLOR_PAIR(isAlive ? FROG_COLOR_NUMBER : CAR_COLOR_NUMBER));
+    mvwprintw(window,0,0,"level: %d",level);
 
     refreshWindow(window);
 } 

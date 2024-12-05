@@ -27,7 +27,6 @@ void initializeGameWindow(){
 }
 
 void destroyGameWindow(){
-    getch();
     endwin();
     std::cout << "thanks for playing froggy game :)" << "\n";
     exit(0);
@@ -40,10 +39,6 @@ void addBorder(WINDOW *board_win){
 
 void refreshWindow(WINDOW *win){
     wrefresh(win);
-}
-
-void destroyGame(chtype**gameBoard){
-    delete gameBoard;
 }
 
 char endWindow(WINDOW *win, int width, int height, char* endText, int textLength, bool moreLevel, int points){

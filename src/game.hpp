@@ -12,6 +12,7 @@
 #include "windowFunctions.hpp"
 #include "statusbarFunctions.hpp"
 #include "storkFunctions.hpp"
+#include "recorderFunctions.hpp"
 
 void doLogic(FrogGame_t *game){
     int realBoardHeight = (game->gameBoard.height)/SCALE_Y - 2*OFFSET;
@@ -105,8 +106,10 @@ void gameLoop(FrogGame_t *frogGame, Player_t *player){
             player->points = 0;
         }
 
-        updateUpStats(frogGame->stats_up_win,frogGame->frog.isAlive, player->points);
+        updateUpStats(frogGame->stats_up_win,frogGame->frog.isAlive, player->points, player->levelNumber);
         updateBotStats(frogGame->stats_bot_win,time/100,player->nick);
+        recordToFile(frogGame->gameBoard.board_win,frogGame->gameBoard.height,frogGame->gameBoard.width);
+        frogGame->framesNumber++;
 
         if(frogGame->isGameEnded)break;
         if(pointTime == 0){

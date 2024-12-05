@@ -4,13 +4,13 @@
 #include <ncurses.h>
 #include "string.h"
 
-
 #include "src/gameSetup.hpp"
 #include "src/gameEnd.hpp"
 #include "src/customTypes.hpp"
 #include "src/windowFunctions.hpp"
 #include "src/rankingFunctions.hpp"
 #include "src/game.hpp"
+#include "src/recorderFunctions.hpp"
 
 using namespace std;
 
@@ -25,15 +25,16 @@ int main(){
     }
 
     Player_t player;
-    player.levelNumber = 1;
+    player.levelNumber = 0;
     cout << "Podaj nick: ";
     cin >> player.nick;
-    player.points = 1000;
+    player.points = 1234;
 
     initializeGameWindow();
     srand(time(NULL));    
 
     for(int i = 0; i <levelsNumber; i++){
+        player.levelNumber++;
         FrogGame_t frogGame;
         initializeGame(&frogGame, levelsPath[i]);
 
@@ -57,27 +58,35 @@ int main(){
                 destroyGame(&frogGame);
                 ranking.rankingRecords[ranking.numberOfRecords-1].score = 0;
                 break;
+            }else if(option == 'r'){
+                showRecording(frogGame.gameBoard.board_win,frogGame.framesNumber);
+                wattron(frogGame.gameBoard.board_win,COLOR_PAIR(FROG_COLOR_NUMBER));
+                mvwaddstr(frogGame.gameBoard.board_win,1,1,"press any key");
+                mvwaddstr(frogGame.gameBoard.board_win,2,1,"to start new level!");
+                wattroff(frogGame.gameBoard.board_win,COLOR_PAIR(FROG_COLOR_NUMBER));
+                refreshWindow(frogGame.gameBoard.board_win);
+                getch();
             }
+            destroyGame(&frogGame);
         }else{
             char message[] = "You are dead\0";
             int textLength = sizeof(message)/sizeof(char);
-            endWindow(frogGame.gameBoard.board_win,frogGame.gameBoard.width, frogGame.gameBoard.height, message, textLength,false,0);
+            char option = endWindow(frogGame.gameBoard.board_win,frogGame.gameBoard.width, frogGame.gameBoard.height, message, textLength,false,0);
+            if(option == 'r'){
+                showRecording(frogGame.gameBoard.board_win,frogGame.framesNumber);
+                wattron(frogGame.gameBoard.board_win,COLOR_PAIR(CAR_COLOR_NUMBER));
+                mvwaddstr(frogGame.gameBoard.board_win,1,1,"press any key..");
+                wattroff(frogGame.gameBoard.board_win,COLOR_PAIR(CAR_COLOR_NUMBER));
+                refreshWindow(frogGame.gameBoard.board_win);
+                getch();
+            }
+            destroyGame(&frogGame);
             break;
         }
+
+        
     }
     saveAndCloseRanking(&ranking);
-    
-    
-
-
-    
-   
-
-
-    
-    
-
-    
     destroyGameWindow();
     return 0;
 }   

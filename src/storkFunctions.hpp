@@ -9,7 +9,7 @@ void initializeStork(MovingObject_t *stork, int boardHeight){
     stork->icon = STORK_ICON;
     stork->colorNumber = STORK_COLOR_NUMBER;
     stork->velocity = STORK_SPEED;
-    stork->moveTimer = 4*stork->velocity;
+    stork->moveTimer = 5*stork->velocity;
     stork->direction = STAY;
     stork->width = 1;
     stork->height = 1;
