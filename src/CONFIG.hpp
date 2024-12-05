@@ -28,8 +28,8 @@
 #define POINT_DURATION 10
 
 //car generate configurations
-#define CAR_MAX_SPEED 20
-#define CAR_MIN_SPEED 25
+#define CAR_MAX_SPEED 5 //how fast car can drive
+#define CAR_MIN_SPEED 12 //how slow car can drive
 #define CAR_MIN_LENGTH 1
 #define CAR_MAX_LENGTH 5
 
