@@ -12,6 +12,7 @@
 #include "boardFunctions.hpp"
 #include "statusbarFunctions.hpp"
 #include "storkFunctions.hpp"
+#include "recorderFunctions.hpp"
 
 void getCarsFromSeed(FILE * seedFile,MovingObject_t **cars, int carsNumber,int boardWidth){
     for(int c = 0; c < carsNumber; c++){
@@ -43,7 +44,6 @@ void getCarsFromSeed(FILE * seedFile,MovingObject_t **cars, int carsNumber,int b
         initialRandomCar(cars[c],carType,(direction == 'R' ? RIGHT : LEFT),posY,(direction == 'R' ? 0 : boardWidth));
     }
 }
-
 bool getDataFromSeed(FrogGame_t *frogGame, char*filePath){
     FILE * seedFile = fopen(filePath,"r");
     Board_t board;
@@ -127,6 +127,8 @@ void initializeGame(FrogGame_t *frogGame, char* seedPath){
     initializeStatsWindows(frogGame);
     initializeFrog(&(frogGame->frog));
     initializeStork(&(frogGame->stork),frogGame->gameBoard.height/SCALE_Y);
+    initializeRecorder(frogGame->gameBoard.height,frogGame->gameBoard.width);
+    frogGame->framesNumber = 0;
 }
 
 

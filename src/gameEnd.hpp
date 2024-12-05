@@ -9,7 +9,7 @@ void destroyBoard(Board_t *board){
     for(int i = 0; i < board->height; i++){
         delete board->board[i];
     }
-    delete board->board;
+    delete []board->board;
 
     delwin(board->board_win);
 }
@@ -18,7 +18,7 @@ void destroyCars(MovingObject_t **cars, int numberOfCars){
     for(int i = 0; i < numberOfCars; i++){
         delete cars[i];
     }
-    delete cars;
+    delete []cars;
 }
 
 

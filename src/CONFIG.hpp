@@ -17,13 +17,13 @@
 
 //size definition
 #define OFFSET 1 //distance beetween border and content
-#define SCALE_X 3
-#define SCALE_Y 3
+#define SCALE_X 2
+#define SCALE_Y 2
 #define STATS_WINDOW_HEIGHT 1
 
 //time definition
 #define FROG_JUMP_SPEED 10
-#define STORK_SPEED 1000000000
+#define STORK_SPEED 100
 #define TICK_DURATION 10
 #define POINT_DURATION 10
 

@@ -44,6 +44,7 @@ struct FrogGame_t
     bool isSeedOkay;
     bool isGameEnded;
     int carsNumber;
+    int framesNumber;
     Board_t gameBoard;
     MovingObject_t frog;
     MovingObject_t stork;
@@ -69,3 +70,6 @@ struct Ranking_t{
     int numberOfRecords;
 };
 
+struct Recorder_t{
+    char **board;
+};
