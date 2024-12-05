@@ -71,7 +71,7 @@ void gameLoop(FrogGame_t *frogGame, Player_t *player){
         }
         for(int c = 0; c < frogGame->carsNumber;  c++){
             if(input == KEY_UP  || input == 'w'){
-                if(frogGame->cars[c]->type == FRIENDLY_CAR_ICON && isCarAccepted(frogGame->cars[c],frogGame->frog)){
+                if(frogGame->cars[c]->type == FRIENDLY_CAR_ICON  && (isAccFriendlyCar  || isCarAccepted(frogGame->cars[c],frogGame->frog))){
                     isAccFriendlyCar = true;
                     accCarY = frogGame->cars[c]->position.y;
                 }
@@ -93,6 +93,7 @@ void gameLoop(FrogGame_t *frogGame, Player_t *player){
                     frogGame->isGameEnded = true;
                     frogGame->frog.isAlive = false;
                     player->points = 0;
+                    break;
                 }
 
             }

@@ -23,12 +23,13 @@
 
 //time definition
 #define FROG_JUMP_SPEED 10
+#define STORK_SPEED 1000000000
 #define TICK_DURATION 10
 #define POINT_DURATION 10
 
 //car generate configurations
-#define CAR_MAX_SPEED 5
-#define CAR_MIN_SPEED 7
+#define CAR_MAX_SPEED 20
+#define CAR_MIN_SPEED 25
 #define CAR_MIN_LENGTH 1
 #define CAR_MAX_LENGTH 5
 

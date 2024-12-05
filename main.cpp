@@ -15,48 +15,69 @@
 using namespace std;
 
 int main(){
+    char levelsPath[][30]= {"./files/level1.txt\0","./files/level2.txt\0","./files/level3.txt\0"};
+    int levelsNumber = 3;
+
     Ranking_t ranking;
     if(!initializeRankingFromFile(&ranking)){
         cout << "cannot initialize ranking..." << "\n";
         return 0;
     }
-    
+
+    Player_t player;
+    player.levelNumber = 1;
+    cout << "Podaj nick: ";
+    cin >> player.nick;
+    player.points = 1000;
 
     initializeGameWindow();
     srand(time(NULL));    
 
-    Player_t player;
-    player.levelNumber = 1;
-    strcpy(player.nick,"SerekJunior");
-    
-    FrogGame_t frogGame;
-    initializeGame(&frogGame);
+    for(int i = 0; i <levelsNumber; i++){
+        FrogGame_t frogGame;
+        initializeGame(&frogGame, levelsPath[i]);
 
-    if(!frogGame.isSeedOkay){ 
-        endwin();
-        cout << "Something gone wrong with seed :(." << "\n";
-        getch();
-        return 0;
+        if(!frogGame.isSeedOkay){ 
+            endwin();
+            cout << "Something gone wrong with seed :(." << "\n";
+            getch();
+            return 0;
+        }
+
+        gameLoop(&frogGame, &player);
+        strcpy(ranking.rankingRecords[ranking.numberOfRecords-1].name,player.nick);
+        ranking.rankingRecords[ranking.numberOfRecords-1].score = player.points;
+        
+
+        if(frogGame.isGameEnded && frogGame.frog.isAlive == true){
+            char message[] = "You passed the level\0";
+            int textLength = sizeof(message)/sizeof(char);
+            char option = endWindow(frogGame.gameBoard.board_win,frogGame.gameBoard.width, frogGame.gameBoard.height, message, textLength,levelsNumber-player.levelNumber,player.points);
+            if(option == 'q'){
+                destroyGame(&frogGame);
+                ranking.rankingRecords[ranking.numberOfRecords-1].score = 0;
+                break;
+            }
+        }else{
+            char message[] = "You are dead\0";
+            int textLength = sizeof(message)/sizeof(char);
+            endWindow(frogGame.gameBoard.board_win,frogGame.gameBoard.width, frogGame.gameBoard.height, message, textLength,false,0);
+            break;
+        }
     }
-    player.points = 50*(frogGame.gameBoard.height/SCALE_Y);
-    gameLoop(&frogGame, &player);
-
-
-    strcpy(ranking.rankingRecords[ranking.numberOfRecords-1].name,player.nick);
-    ranking.rankingRecords[ranking.numberOfRecords-1].score = player.points;
     saveAndCloseRanking(&ranking);
+    
+    
 
-    if(frogGame.isGameEnded && frogGame.frog.isAlive == true){
-        char message[] = "You passed the level\0";
-        int textLength = sizeof(message)/sizeof(char);
-        endWindow(frogGame.gameBoard.board_win,frogGame.gameBoard.width, frogGame.gameBoard.height, message, textLength);
-    }else{
-        char message[] = "You are dead xD\0";
-        int textLength = sizeof(message)/sizeof(char);
-        endWindow(frogGame.gameBoard.board_win,frogGame.gameBoard.width, frogGame.gameBoard.height, message, textLength);
-    }
 
-    destroyGame(&frogGame);
+    
+   
+
+
+    
+    
+
+    
     destroyGameWindow();
     return 0;
 }   
