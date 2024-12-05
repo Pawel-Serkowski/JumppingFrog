@@ -173,33 +173,27 @@ bool isCarAccepted(MovingObject_t *car, MovingObject_t frog){
 
 
 void checkingCarsCollisions(FrogGame_t *frogGame, chtype input, int *accCarY, bool *isAccFriendlyCar, Player_t *player){
+    if(input != ERR){
+        *isAccFriendlyCar = false;
+        *accCarY = -1;
+    }
     for(int c = 0; c < frogGame->carsNumber;  c++){
-            if(input == KEY_UP  || input == 'w'){
-                if(frogGame->cars[c]->type == FRIENDLY_CAR_ICON  && (isAccFriendlyCar  || isCarAccepted(frogGame->cars[c],frogGame->frog))){
-                    *isAccFriendlyCar = true;
-                    *accCarY = frogGame->cars[c]->position.y;
-                }
-                else if(frogGame->cars[c]->position.y == *accCarY){
-                        *isAccFriendlyCar = false;
-                }
-
-            }else if(input == ERR){
-                *isAccFriendlyCar = *isAccFriendlyCar;
-            }else{
-                *isAccFriendlyCar = false;
-                *accCarY = -1;
-            }
-            
-            if(isCollisionWithCar(frogGame->cars[c],frogGame->frog)){
-                if(isAccFriendlyCar){
-                    moveWithCar(&frogGame->frog,frogGame->cars[c],frogGame->gameBoard.width/SCALE_X);
-                }else{
-                    frogGame->isGameEnded = true;
-                    frogGame->frog.isAlive = false;
-                    player->points = 0;
-                    break;
-                }
-
-            }
+        if(frogGame->cars[c]->position.y == *accCarY){
+            moveWithCar(&frogGame->frog,frogGame->cars[c],frogGame->gameBoard.width/SCALE_X);
+            continue;
         }
+        if(isCollisionWithCar(frogGame->cars[c],frogGame->frog)){
+            if(frogGame->cars[c]->type == FRIENDLY_CAR_ICON && (input == KEY_UP  || input == 'w')){
+                moveWithCar(&frogGame->frog,frogGame->cars[c],frogGame->gameBoard.width/SCALE_X);
+                *isAccFriendlyCar = isCarAccepted(frogGame->cars[c],frogGame->frog);
+                *accCarY = frogGame->cars[c]->position.y;
+            }else{
+                frogGame->isGameEnded = true;
+                frogGame->frog.isAlive = false;
+                player->points = 0;
+                break;
+            }
+
+        }
+    }
 }

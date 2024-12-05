@@ -29,8 +29,8 @@ void processInput(chtype input, Direction *frogDirection){
 
 
 void moveWithCar(MovingObject_t *frog, MovingObject_t *car, int boardWidth){
-    if(car->direction == RIGHT && frog->position.x < boardWidth) frog->position.x++;
-    else if(car->direction == LEFT && frog->position.x >0) frog->position.x--;
+    if(car->direction == RIGHT && frog->position.x < boardWidth&& car->position.x > +  car->width - 3< boardWidth) frog->position.x = car->position.x + car->width;
+    else if(car->direction == LEFT && frog->position.x >0 && car->position.x > 0) frog->position.x = car->position.x -1;
 }
 
 
