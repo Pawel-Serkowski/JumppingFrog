@@ -9,6 +9,7 @@ void initializeBoardWindow(WINDOW *board_win){
     addBorder(board_win);
 }
 
+
 void initializeBoard(Board_t *gameBoard){
     gameBoard->height *= SCALE_Y;
     gameBoard->width *= SCALE_X;

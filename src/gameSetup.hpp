@@ -44,24 +44,18 @@ void getCarsFromSeed(FILE * seedFile,MovingObject_t **cars, int carsNumber,int b
         initialRandomCar(cars[c],carType,(direction == 'R' ? RIGHT : LEFT),posY,(direction == 'R' ? 0 : boardWidth));
     }
 }
-bool getDataFromSeed(FrogGame_t *frogGame, char*filePath){
-    FILE * seedFile = fopen(filePath,"r");
-    Board_t board;
-    MovingObject_t frog;
 
-    if(seedFile == NULL){
-        return false;
-    }
-    //getting board data
-    fscanf(seedFile, "%d", &board.height);
-    fscanf(seedFile, "%d", &board.width);
+
+void getBoardDataFromSeed(FILE * seedFile, Board_t *board, MovingObject_t *frog){
+    fscanf(seedFile, "%d", &board->height);
+    fscanf(seedFile, "%d", &board->width);
     chtype **gameBoard;
     char seedIcon;
 
-    gameBoard = new chtype*[board.height];
-    gameBoard[0] = new chtype[board.width];
+    gameBoard = new chtype*[board->height];
+    gameBoard[0] = new chtype[board->width];
     seedIcon = getc(seedFile);
-    for(int j = 0;j < board.width;j++){
+    for(int j = 0;j < board->width;j++){
         seedIcon = getc(seedFile);
         if(seedIcon == SEED_GRASS_ICON){
             seedIcon = ROAD_ICON;
@@ -70,11 +64,12 @@ bool getDataFromSeed(FrogGame_t *frogGame, char*filePath){
         }
         gameBoard[0][j] = seedIcon;
     }
-    for(int i = 1; i < board.height; i++){
-        gameBoard[i] = new chtype[board.width];
+
+    for(int i = 1; i < board->height; i++){
+        gameBoard[i] = new chtype[board->width];
         seedIcon = getc(seedFile);
 
-        for(int j =0; j < board.width; j++){
+        for(int j =0; j < board->width; j++){
             seedIcon = getc(seedFile);
             switch(seedIcon){
                 case SEED_GRASS_ICON:
@@ -85,10 +80,10 @@ bool getDataFromSeed(FrogGame_t *frogGame, char*filePath){
                     break;
                 case SEED_FROG_ICON:
                     seedIcon = GRASS_ICON;
-                    frog.position.x = j;
-                    frog.position.y = i;
+                    frog->position.x = j;
+                    frog->position.y = i;
                     break;
-                case SEED_OBSTACLE_ICON:
+                case SEED_OBSTACLE_ICON: 
                     seedIcon = OBSTACLE_ICON;
                     break;
                 default:
@@ -98,13 +93,72 @@ bool getDataFromSeed(FrogGame_t *frogGame, char*filePath){
         }
     }
 
+    board->board = gameBoard;
+}
+
+
+bool getDataFromSeed(FrogGame_t *frogGame, char*filePath){
+    FILE * seedFile = fopen(filePath,"r");
+    Board_t board;
+    MovingObject_t frog;
+
+    if(seedFile == NULL){
+        return false;
+    }
+    //getting board data
+    // fscanf(seedFile, "%d", &board.height);
+    // fscanf(seedFile, "%d", &board.width);
+    // chtype **gameBoard;
+    // char seedIcon;
+
+    // gameBoard = new chtype*[board.height];
+    // gameBoard[0] = new chtype[board.width];
+    // seedIcon = getc(seedFile);
+    // for(int j = 0;j < board.width;j++){
+    //     seedIcon = getc(seedFile);
+    //     if(seedIcon == SEED_GRASS_ICON){
+    //         seedIcon = ROAD_ICON;
+    //     }else{
+    //         seedIcon = OBSTACLE_ICON;
+    //     }
+    //     gameBoard[0][j] = seedIcon;
+    // }
+    // for(int i = 1; i < board.height; i++){
+    //     gameBoard[i] = new chtype[board.width];
+    //     seedIcon = getc(seedFile);
+
+    //     for(int j =0; j < board.width; j++){
+    //         seedIcon = getc(seedFile);
+    //         switch(seedIcon){
+    //             case SEED_GRASS_ICON:
+    //                 seedIcon = GRASS_ICON;
+    //                 break;
+    //             case SEED_ROAD_ICON:
+    //                 seedIcon = ROAD_ICON;
+    //                 break;
+    //             case SEED_FROG_ICON:
+    //                 seedIcon = GRASS_ICON;
+    //                 frog.position.x = j;
+    //                 frog.position.y = i;
+    //                 break;
+    //             case SEED_OBSTACLE_ICON:
+    //                 seedIcon = OBSTACLE_ICON;
+    //                 break;
+    //             default:
+    //                 seedIcon = '?';
+    //         }
+    //         gameBoard[i][j] = seedIcon;
+    //     }
+    // }
+
+    getBoardDataFromSeed(seedFile,&board,&frog);
+
     int carsNumber;
     fscanf(seedFile, " %d",&carsNumber);
     MovingObject_t **cars;
     cars = new MovingObject_t*[carsNumber];
     getCarsFromSeed(seedFile,cars,carsNumber,board.width);
 
-    board.board = gameBoard;
     frogGame->gameBoard = board;
     frogGame->frog = frog;
     frogGame->cars = cars;
@@ -113,6 +167,7 @@ bool getDataFromSeed(FrogGame_t *frogGame, char*filePath){
     fclose(seedFile);
     return true;
 }
+
 
 void initializeGame(FrogGame_t *frogGame, char* seedPath){
     if(!getDataFromSeed(frogGame,seedPath)){

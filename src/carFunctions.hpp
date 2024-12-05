@@ -5,12 +5,14 @@
 #include "CONFIG.hpp"
 #include "customTypes.hpp"
 #include "utils.hpp"
+#include "frogFunctions.hpp"
 
 void initialDefaultValues(MovingObject_t *car,chtype carType='N'){
     car->colorNumber = carType == 'F' ? FRIENDLY_CAR_COLOR_NUMBER : CAR_COLOR_NUMBER;
     car->icon = carType == 'F' ? FRIENDLY_CAR_ICON : CAR_ICON;
     car->isAlive = true;
 }
+
 
 void initialBouncingCar(MovingObject_t *car, Direction carDirection, int height, int width, int posY, int posX, int velocity){
     initialDefaultValues(car);
@@ -23,6 +25,7 @@ void initialBouncingCar(MovingObject_t *car, Direction carDirection, int height,
     car->direction = carDirection;
     car->initialWidth = width;
 }
+
 
 void initialRandomCar(MovingObject_t *car, chtype carType ,Direction carDirection,int postionY, int initialPositionX=0){ 
     initialDefaultValues(car,carType);
@@ -37,6 +40,7 @@ void initialRandomCar(MovingObject_t *car, chtype carType ,Direction carDirectio
     car->direction = carDirection;
 }
 
+
 void initialLastCar(MovingObject_t *car,int positionX = 0){
     car->isAlive = true;
     car->width = 0;
@@ -45,6 +49,7 @@ void initialLastCar(MovingObject_t *car,int positionX = 0){
     car->position.x = positionX;
     car->initialWidth = getRandomNumber(CAR_MIN_LENGTH,CAR_MAX_LENGTH);
 }
+
 
 void moveBouncingCar(MovingObject_t *car, int boardWidth, chtype *road){
     int newX = car->position.x;
@@ -74,6 +79,7 @@ void moveNormalCar(MovingObject_t *car, int boardWidth, chtype *road){
         initialLastCar(car, car->direction == RIGHT ? 0 : boardWidth+2);
         return;
     }
+
     int newX = car->position.x;
     if(car->direction == RIGHT){
         if(car->position.x+car->width-2 >= boardWidth){
@@ -92,14 +98,13 @@ void moveNormalCar(MovingObject_t *car, int boardWidth, chtype *road){
         }else if(car->initialWidth > car->width){
             car->width += 1;
             
-        }
+        }        
         newX -= 1;
-        
     }
 
-    
     car->position.x = newX;
 }
+
 
 void moveStoppingCar(MovingObject_t *car,int boardWidth, chtype*road, MovingObject_t frog){
     if(car->direction == RIGHT && (frog.position.y == car->position.y+1 || frog.position.y == car->position.y) && frog.position.x == car->position.x+car->width){
@@ -110,6 +115,7 @@ void moveStoppingCar(MovingObject_t *car,int boardWidth, chtype*road, MovingObje
 
     moveNormalCar(car,boardWidth,road);
 }
+
 
 void moveFriendlyCar(MovingObject_t *car,int boardWidth, chtype*road, MovingObject_t frog){
     bool isFrogTouched = false;
@@ -123,6 +129,7 @@ void moveFriendlyCar(MovingObject_t *car,int boardWidth, chtype*road, MovingObje
     }
     moveNormalCar(car,boardWidth,road);
 }
+
 
 void moveCar(MovingObject_t *car, int boardWidth, chtype *road, MovingObject_t frog){
     if(car->moveTimer != 0)return;
@@ -145,6 +152,7 @@ void moveCar(MovingObject_t *car, int boardWidth, chtype *road, MovingObject_t f
     
 }
 
+
 bool isCollisionWithCar(MovingObject_t *car, MovingObject_t frog){
     for(int h = 0; h <car->height; h++){
         for(int w = 0; w < car->width; w++){
@@ -155,9 +163,43 @@ bool isCollisionWithCar(MovingObject_t *car, MovingObject_t frog){
 
 }
 
+
 bool isCarAccepted(MovingObject_t *car, MovingObject_t frog){
     if(car->position.y == frog.position.y && frog.position.x >= car->position.x && frog.position.x <= car->position.x+car->width){
         return true;
     } 
     return false;
+}
+
+
+void checkingCarsCollisions(FrogGame_t *frogGame, chtype input, int *accCarY, bool *isAccFriendlyCar, Player_t *player){
+    for(int c = 0; c < frogGame->carsNumber;  c++){
+            if(input == KEY_UP  || input == 'w'){
+                if(frogGame->cars[c]->type == FRIENDLY_CAR_ICON  && (isAccFriendlyCar  || isCarAccepted(frogGame->cars[c],frogGame->frog))){
+                    *isAccFriendlyCar = true;
+                    *accCarY = frogGame->cars[c]->position.y;
+                }
+                else if(frogGame->cars[c]->position.y == *accCarY){
+                        *isAccFriendlyCar = false;
+                }
+
+            }else if(input == ERR){
+                *isAccFriendlyCar = *isAccFriendlyCar;
+            }else{
+                *isAccFriendlyCar = false;
+                *accCarY = -1;
+            }
+            
+            if(isCollisionWithCar(frogGame->cars[c],frogGame->frog)){
+                if(isAccFriendlyCar){
+                    moveWithCar(&frogGame->frog,frogGame->cars[c],frogGame->gameBoard.width/SCALE_X);
+                }else{
+                    frogGame->isGameEnded = true;
+                    frogGame->frog.isAlive = false;
+                    player->points = 0;
+                    break;
+                }
+
+            }
+        }
 }

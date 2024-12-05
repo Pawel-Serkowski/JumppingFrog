@@ -14,6 +14,7 @@ void initializeRecorder(int boardHeight, int boardWidth){
     fclose(recorderFile);
 }
 
+
 void recordToFile(WINDOW * win, int boardHeight, int boardWidth){
     FILE * recorderFile = fopen("./files/recording.txt","a");
     for(int i = 0; i < boardHeight; i++){
@@ -51,6 +52,17 @@ void showRecording(WINDOW * win, int framesNumber){
         refreshWindow(win);
         usleep(10000);
     }
-    fclose(recorderFile);
 
+    fclose(recorderFile);
+}
+
+
+void showRecorderHandler(FrogGame_t frogGame, int textColorNumber, char *text1, char *text2){
+    showRecording(frogGame.gameBoard.board_win,frogGame.framesNumber);
+    wattron(frogGame.gameBoard.board_win,COLOR_PAIR(textColorNumber));
+    mvwaddstr(frogGame.gameBoard.board_win,1,1,"press any key");
+    mvwaddstr(frogGame.gameBoard.board_win,2,1,"to start new level!");
+    wattroff(frogGame.gameBoard.board_win,COLOR_PAIR(textColorNumber));
+    refreshWindow(frogGame.gameBoard.board_win);
+    getch();
 }
