@@ -8,7 +8,7 @@ void initializeStork(MovingObject_t *stork, int boardHeight){
     stork->position.y = boardHeight+1;
     stork->icon = STORK_ICON;
     stork->colorNumber = STORK_COLOR_NUMBER;
-    stork->velocity = 4*FROG_JUMP_SPEED;
+    stork->velocity = STORK_SPEED;
     stork->moveTimer = 4*stork->velocity;
     stork->direction = STAY;
     stork->width = 1;
@@ -38,5 +38,5 @@ void moveStork(MovingObject_t *stork, MovingObject_t frog){
 }
 
 bool isFrogEaten(MovingObject_t stork, MovingObject_t frog){
-    return (stork.position.x == frog.position.x)&&(stork.position.x == frog.position.x);
+    return (stork.position.x == frog.position.x)&&(stork.position.y == frog.position.y);
 }

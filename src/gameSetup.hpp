@@ -44,8 +44,8 @@ void getCarsFromSeed(FILE * seedFile,MovingObject_t **cars, int carsNumber,int b
     }
 }
 
-bool getDataFromSeed(FrogGame_t *frogGame){
-    FILE * seedFile = fopen("./files/default.txt","r");
+bool getDataFromSeed(FrogGame_t *frogGame, char*filePath){
+    FILE * seedFile = fopen(filePath,"r");
     Board_t board;
     MovingObject_t frog;
 
@@ -114,8 +114,8 @@ bool getDataFromSeed(FrogGame_t *frogGame){
     return true;
 }
 
-void initializeGame(FrogGame_t *frogGame){
-    if(!getDataFromSeed(frogGame)){
+void initializeGame(FrogGame_t *frogGame, char* seedPath){
+    if(!getDataFromSeed(frogGame,seedPath)){
         frogGame->isSeedOkay = false;
         return;
     }

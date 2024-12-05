@@ -46,14 +46,19 @@ void destroyGame(chtype**gameBoard){
     delete gameBoard;
 }
 
-void endWindow(WINDOW *win, int width, int height, char* endText, int textLength){
+char endWindow(WINDOW *win, int width, int height, char* endText, int textLength, bool moreLevel, int points){
     wclear(win);
     int startY = height / 2;     
     int startX = (width - textLength) / 2;
+    
     mvwprintw(win,startY,startX,"%s",endText);
-    mvwprintw(win,startY+2,startX,"%s", "press any key");
+    if(points > 0)mvwprintw(win,startY+2,startX,"Your points: %d", points);
+    mvwprintw(win,startY+3,startX,"%s", "q - quit game");
+    mvwprintw(win,startY+4,startX,"%s", "r - replay");
+    if(moreLevel)mvwprintw(win,startY+5,startX,"%s", "press any key to continue");
+
     addBorder(win);
     wrefresh(win);
     timeout(-1);
-    getch();
+    return getch();
 }
