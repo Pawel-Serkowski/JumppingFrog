@@ -12,7 +12,6 @@
 #include "windowFunctions.hpp"
 #include "statusbarFunctions.hpp"
 #include "storkFunctions.hpp"
-#include "recorderFunctions.hpp"
 
 void doLogic(FrogGame_t *game){
     int realBoardHeight = (game->gameBoard.height)/SCALE_Y - 2*OFFSET;
@@ -25,9 +24,25 @@ void doLogic(FrogGame_t *game){
     }
 }
 
-bool isFrogOnFinishLine(MovingObject_t frog){
-    return frog.position.y == 0;
+
+void isFrogOnFinishLine(FrogGame_t *frogGame){
+    if(frogGame->frog.position.y == 0)
+        frogGame->isGameEnded = true;
 }
+
+
+void moveFrogAndCarsTimer(FrogGame_t *frogGame){
+    if(frogGame->frog.moveTimer > 0){
+        frogGame->frog.moveTimer -= 1;
+    }
+    
+    for(int c = 0; c < frogGame->carsNumber;  c++){
+        if(frogGame->cars[c]->moveTimer > 0){
+           frogGame->cars[c]->moveTimer -= 1;
+        }
+    }
+}
+
 
 void gameLoop(FrogGame_t *frogGame, Player_t *player){
     int time;
@@ -53,63 +68,18 @@ void gameLoop(FrogGame_t *frogGame, Player_t *player){
 
         doLogic(frogGame);
 
-        if(frogGame->frog.moveTimer > 0){
-            frogGame->frog.moveTimer -= 1;
-        }
-        for(int c = 0; c < frogGame->carsNumber;  c++){
-            if(frogGame->cars[c]->moveTimer > 0){
-                frogGame->cars[c]->moveTimer -= 1;
-            }
-        }
-        moveStork(&frogGame->stork,frogGame->frog);
+        moveFrogAndCarsTimer(frogGame);
 
+        moveStork(&frogGame->stork,frogGame->frog);
 
         drawGame(*frogGame);
         refreshWindow(frogGame->gameBoard.board_win);
 
-        if(isFrogOnFinishLine(frogGame->frog)){
-            frogGame->isGameEnded = true;
-        }
-        for(int c = 0; c < frogGame->carsNumber;  c++){
-            if(input == KEY_UP  || input == 'w'){
-                if(frogGame->cars[c]->type == FRIENDLY_CAR_ICON  && (isAccFriendlyCar  || isCarAccepted(frogGame->cars[c],frogGame->frog))){
-                    isAccFriendlyCar = true;
-                    accCarY = frogGame->cars[c]->position.y;
-                }
-                else if(frogGame->cars[c]->position.y == accCarY){
-                        isAccFriendlyCar = false;
-                }
+        isFrogOnFinishLine(frogGame);
+        checkingCarsCollisions(frogGame,input,&accCarY,&isAccFriendlyCar,player);
+        isFrogEaten(frogGame->stork,frogGame, player);
 
-            }else if(input == ERR){
-                isAccFriendlyCar = isAccFriendlyCar;
-            }else{
-                isAccFriendlyCar = false;
-                accCarY = -1;
-            }
-            
-            if(isCollisionWithCar(frogGame->cars[c],frogGame->frog)){
-                if(isAccFriendlyCar){
-                    moveWithCar(&frogGame->frog,frogGame->cars[c],frogGame->gameBoard.width/SCALE_X);
-                }else{
-                    frogGame->isGameEnded = true;
-                    frogGame->frog.isAlive = false;
-                    player->points = 0;
-                    break;
-                }
-
-            }
-        }
-
-        if(isFrogEaten(frogGame->stork,frogGame->frog)){
-            frogGame->isGameEnded = true;
-            frogGame->frog.isAlive = false;
-            player->points = 0;
-        }
-
-        updateUpStats(frogGame->stats_up_win,frogGame->frog.isAlive, player->points, player->levelNumber);
-        updateBotStats(frogGame->stats_bot_win,time/100,player->nick);
-        recordToFile(frogGame->gameBoard.board_win,frogGame->gameBoard.height,frogGame->gameBoard.width);
-        frogGame->framesNumber++;
+        updateStats(frogGame, player,time);
 
         if(frogGame->isGameEnded)break;
         if(pointTime == 0){

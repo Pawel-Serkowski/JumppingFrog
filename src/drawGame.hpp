@@ -9,6 +9,7 @@ void drawAt(WINDOW *window, int y, int x, chtype icon, int colorPairNumber=CASUA
     mvwaddch(window,y+OFFSET,x+OFFSET,icon | COLOR_PAIR(colorPairNumber));
 }
 
+
 void drawScaleIcon(WINDOW *window,int row, int col, chtype icon, int colorPairNumber = CASUAL_COLOR_NUMBER){
     int actualX, actualY;
     for(int sy = 0; sy < SCALE_Y; sy++){
@@ -19,6 +20,7 @@ void drawScaleIcon(WINDOW *window,int row, int col, chtype icon, int colorPairNu
         }
     }
 }
+
 
 void drawFinishLine(WINDOW *window,int row, int col, int parity, chtype icon ){
     int actualX, actualY;
@@ -37,6 +39,7 @@ void drawFinishLine(WINDOW *window,int row, int col, int parity, chtype icon ){
     }
 }
 
+
 void drawEntity(WINDOW *window, MovingObject_t entity){
     for(int i = 0; i < entity.height; i++){
         for(int j = 0; j < entity.width; j++){
@@ -45,6 +48,7 @@ void drawEntity(WINDOW *window, MovingObject_t entity){
     }
 
 }
+
 
 void drawBoard(Board_t gameBoard){
     int normalHeight = gameBoard.height/SCALE_Y;
@@ -62,6 +66,7 @@ void drawBoard(Board_t gameBoard){
     }
 }
 
+
 void drawGame(FrogGame_t frogGame){
     drawBoard(frogGame.gameBoard);
 
@@ -72,5 +77,4 @@ void drawGame(FrogGame_t frogGame){
     }
 
     if(frogGame.stork.position.y < frogGame.gameBoard.height/SCALE_Y )drawEntity(frogGame.gameBoard.board_win, frogGame.stork);
-    
 }

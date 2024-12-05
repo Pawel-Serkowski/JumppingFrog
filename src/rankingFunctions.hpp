@@ -21,9 +21,11 @@ bool initializeRankingFromFile(Ranking_t * ranking){
         fscanf(rankingFile,"%s %i",ranking->rankingRecords[i].name,&ranking->rankingRecords[i].score);
         
     }
+
     fclose(rankingFile);
     return true;
 }
+
 
 void saveAndCloseRanking( Ranking_t * ranking){
     FILE* rankingFile = fopen("./files/ranking.txt","w");

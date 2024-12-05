@@ -16,6 +16,7 @@ void initializeStork(MovingObject_t *stork, int boardHeight){
     stork->isAlive = true;
 }
 
+
 void moveStork(MovingObject_t *stork, MovingObject_t frog){
     if(stork->moveTimer >0)
     {
@@ -37,6 +38,11 @@ void moveStork(MovingObject_t *stork, MovingObject_t frog){
     stork->moveTimer = stork->velocity;
 }
 
-bool isFrogEaten(MovingObject_t stork, MovingObject_t frog){
-    return (stork.position.x == frog.position.x)&&(stork.position.y == frog.position.y);
+
+void isFrogEaten(MovingObject_t stork, FrogGame_t *frogGame, Player_t *player){
+    if((stork.position.x == frogGame->frog.position.x)&&(stork.position.y == frogGame->frog.position.y)){
+        frogGame->isGameEnded = true;
+        frogGame->frog.isAlive = false;
+        player->points = 0;
+    }
 }

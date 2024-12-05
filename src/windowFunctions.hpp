@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "CONFIG.hpp"
+#include "customTypes.hpp"
 
 void initColors(){
     init_pair(CASUAL_COLOR_NUMBER,CASUAL_COLOR,-1);
@@ -14,6 +15,7 @@ void initColors(){
     init_pair(FRIENDLY_CAR_COLOR_NUMBER,FRIENDLY_CAR_COLOR,-1);
     init_pair(STORK_COLOR_NUMBER,STORK_COLOR,-1);
 }
+
 
 void initializeGameWindow(){
     initscr();
@@ -26,6 +28,7 @@ void initializeGameWindow(){
     keypad(stdscr,true);
 }
 
+
 void destroyGameWindow(){
     endwin();
     std::cout << "thanks for playing froggy game :)" << "\n";
@@ -33,13 +36,16 @@ void destroyGameWindow(){
 
 }
 
+
 void addBorder(WINDOW *board_win){
     box(board_win,0,0);
 }
 
+
 void refreshWindow(WINDOW *win){
     wrefresh(win);
 }
+
 
 char endWindow(WINDOW *win, int width, int height, char* endText, int textLength, bool moreLevel, int points){
     wclear(win);
