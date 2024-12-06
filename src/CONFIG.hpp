@@ -2,6 +2,7 @@
 
 #include <ncurses.h>
 
+//game icons
 #define ROAD_ICON ' '
 #define GRASS_ICON '.'
 #define FROG_ICON 'O'
@@ -10,6 +11,7 @@
 #define FRIENDLY_CAR_ICON 'F'
 #define OBSTACLE_ICON 'L'
 
+//seed icons
 #define SEED_ROAD_ICON 'R'
 #define SEED_GRASS_ICON 'G'
 #define SEED_FROG_ICON 'F'
@@ -49,6 +51,3 @@
 
 #define STORK_COLOR_NUMBER 7
 #define STORK_COLOR COLOR_CYAN
-
-
-#define RANKING_FILE "./files/ranking.txt"

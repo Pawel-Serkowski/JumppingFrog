@@ -15,7 +15,7 @@
 using namespace std;
 
 int main(){
-    char levelsPath[][30]= {"./files/level1.txt\0","./files/level2.txt\0","./files/level3.txt\0"};
+    char levelsPath[][30]= {"./files/level1.txt\0","./files/level2.txt\0","./files/level3.txt\0"}; ; //the array with target paths of levels
     int levelsNumber = 3;
 
     Ranking_t ranking;

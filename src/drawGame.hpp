@@ -5,10 +5,11 @@
 #include "customTypes.hpp"
 #include "CONFIG.hpp"
 
+
+//drawing char at specified position on board with specified color
 void drawAt(WINDOW *window, int y, int x, chtype icon, int colorPairNumber=CASUAL_COLOR_NUMBER){
     mvwaddch(window,y+OFFSET,x+OFFSET,icon | COLOR_PAIR(colorPairNumber));
 }
-
 
 void drawScaleIcon(WINDOW *window,int row, int col, chtype icon, int colorPairNumber = CASUAL_COLOR_NUMBER){
     int actualX, actualY;

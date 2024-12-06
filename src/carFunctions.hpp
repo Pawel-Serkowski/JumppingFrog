@@ -163,7 +163,7 @@ bool isCollisionWithCar(MovingObject_t *car, MovingObject_t frog){
 
 }
 
-
+//checking if frog can jump on car
 bool isCarAccepted(MovingObject_t *car, MovingObject_t frog){
     if(car->position.y == frog.position.y && frog.position.x >= car->position.x && frog.position.x <= car->position.x+car->width){
         return true;

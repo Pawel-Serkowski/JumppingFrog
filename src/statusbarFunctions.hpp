@@ -17,7 +17,7 @@ void initializeStatsWindows(FrogGame_t *frogGame){
     refreshWindow(frogGame->stats_bot_win);
 }
 
-
+//updating up status bar window
 void updateUpStats(WINDOW * window, bool isAlive, int points, int level){
     int width;
     width = getmaxx(window);
@@ -32,7 +32,7 @@ void updateUpStats(WINDOW * window, bool isAlive, int points, int level){
     refreshWindow(window);
 } 
 
-
+//updating bottom status bar window
 void updateBotStats(WINDOW *window, int timeSeconds, char*nick){
     int width;
     width = getmaxx(window);

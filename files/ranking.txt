@@ -1,3 +1,4 @@
-7
+3
 Serek 1010
 Serek_slabszy 976
+Serek_najslabszy 0

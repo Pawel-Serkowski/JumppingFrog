@@ -69,7 +69,3 @@ struct Ranking_t{
     RankingRecord_t *rankingRecords;
     int numberOfRecords;
 };
-
-struct Recorder_t{
-    char **board;
-};

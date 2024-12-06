@@ -38,7 +38,7 @@ void moveStork(MovingObject_t *stork, MovingObject_t frog){
     stork->moveTimer = stork->velocity;
 }
 
-
+//checking if stork catch frog
 void isFrogEaten(MovingObject_t stork, FrogGame_t *frogGame, Player_t *player){
     if((stork.position.x == frogGame->frog.position.x)&&(stork.position.y == frogGame->frog.position.y)){
         frogGame->isGameEnded = true;

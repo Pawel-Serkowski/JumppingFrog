@@ -13,7 +13,9 @@
 #include "statusbarFunctions.hpp"
 #include "storkFunctions.hpp"
 
-void doLogic(FrogGame_t *game){
+
+//moving frog and cars
+void doMoves(FrogGame_t *game){
     int realBoardHeight = (game->gameBoard.height)/SCALE_Y - 2*OFFSET;
     int realBoardwidth = (game->gameBoard.width)/SCALE_X - 2*OFFSET;
 
@@ -66,7 +68,7 @@ void gameLoop(FrogGame_t *frogGame, Player_t *player){
             }
         }
 
-        doLogic(frogGame);
+        doMoves(frogGame);
 
         moveFrogAndCarsTimer(frogGame);
 
